@@ -24,8 +24,6 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-// app.use(express.static("../client/index.html"));
-// app.use('/static', express.static('public'))
 app.use(express.static(path.join(__dirname, "../client")));
 console.log("dir name is", __dirname);
 app.use(bodyParser.json());
