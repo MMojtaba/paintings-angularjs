@@ -1,0 +1,18 @@
+{
+  "name": "paintings-angularjs",
+  "version": "1.0.0",
+  "description": "Using - AngularJS - Express - MongoDB - Bootstrap - Docker - PassportJS - Node Restful",
+  "scripts": {
+    "dev": "nodemon server/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.1"
+  }
+}
