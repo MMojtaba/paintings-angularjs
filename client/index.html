@@ -1,16 +1,24 @@
 <!doctype html>
-<html ng-app="PaintingApp">
+<html lang="en" ng-app="PaintingsApp">
   <head>
-    <script type="text/javascript" src="library/angular.min.js"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="library/bootstrap.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paintings</title>
 
+    <!-- Angular -->
+    <script type="text/javascript" src="lib/angular.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Controllers -->
     <script type="text/javascript" src="client.js"></script>
   </head>
   <body>
     <div ng-view>
-      <div ng-controller="main" class="btn btn-success">
-        Hellos index html {{tmp}}
+      <div ng-controller="MainCtrl">
+        <span class="badge badge-primary"> {{ message }} </span>
       </div>
     </div>
   </body>

@@ -1,6 +1,6 @@
-angular.module("PaintingApp", []).controller("main", [
+angular.module("PaintingsApp", []).controller("MainCtrl", [
   "$scope",
   function ($scope) {
-    $scope.tmp = "wow inside";
+    $scope.message = "wow inside frontend";
   }
 ]);

@@ -37,7 +37,7 @@ router.get("/api/hello", (req, res) => {
   res.send("Hello World!");
 });
 
-router.get("*", async (req, res) => {
+router.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client", "index.html"));
 });
 
