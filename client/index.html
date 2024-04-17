@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en" ng-app="PaintingsApp">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Paintings</title>
 
-    <!-- Angular -->
+    <!-- Libraries -->
     <script type="text/javascript" src="lib/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-router.min.js"></script>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="lib/bootstrap.min.css" />
@@ -14,12 +15,13 @@
 
     <!-- Controllers -->
     <script type="text/javascript" src="client.js"></script>
+    <script type="text/javascript" src="controllers/home.js"></script>
+    <script type="text/javascript" src="controllers/browse.js"></script>
   </head>
   <body>
-    <div ng-view>
-      <div ng-controller="MainCtrl">
-        <span class="badge badge-primary"> {{ message }} </span>
-      </div>
-    </div>
+    <button class="btn btn-primary" ui-sref="Home">Home</button>
+    <button class="btn btn-primary" ui-sref="Browse">Browse</button>
+    {{message}}
+    <ui-view></ui-view>
   </body>
 </html>

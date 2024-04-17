@@ -25,7 +25,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.static(path.join(__dirname, "../client")));
-console.log("dir name is", __dirname);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use("/api", routes);
@@ -35,6 +34,7 @@ router.get("/api/hello", (req, res) => {
   res.send("Hello World!");
 });
 
+//for accessing the frontend
 router.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client", "index.html"));
 });
@@ -42,6 +42,6 @@ router.get("*", (req, res) => {
 app.use(router);
 
 app.listen(PORT, (error) => {
-  if (!error) console.log("Success");
-  else console.log("Error, error");
+  if (error) console.error("Error", error);
+  else console.log("Server started successfully on port ", PORT);
 });
