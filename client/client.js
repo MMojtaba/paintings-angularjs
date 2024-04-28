@@ -1,4 +1,4 @@
-const app = angular.module("PaintingsApp", ["ui.router"]);
+const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider) {
   $stateProvider.state("Login", {
