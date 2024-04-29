@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
 
 const UserModel = require("./models/User.js");
 
@@ -52,15 +53,22 @@ app.post("/api/register", (req, res) => {
   if (!username || !password)
     return res.status(400).send("Username or passsword not provided.");
 
-  UserModel.create({ username, password })
-    .then(function (user) {
-      console.log("Successfully created user", user.username);
-      res.status(200).send("created user");
-    })
-    .catch(function (err) {
-      console.error("Error creating user", err);
-      res.status(500).send("error registering");
-    });
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      console.error("error");
+      res.status(500).send();
+    }
+
+    UserModel.create({ username, password: hash })
+      .then(function (user) {
+        console.log("Successfully created user", user.username);
+        res.status(200).send("created user");
+      })
+      .catch(function (err) {
+        console.error("Error creating user", err);
+        res.status(500).send("error registering");
+      });
+  });
 });
 
 app.post(
