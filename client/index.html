@@ -8,6 +8,7 @@
     <!-- Angular -->
     <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src="lib/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="lib/angular-resource.min.js"></script>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="lib/bootstrap.min.css" />
@@ -15,12 +16,21 @@
 
     <!-- Controllers -->
     <script type="text/javascript" src="client.js"></script>
+    <script type="text/javascript" src="controllers/login.js"></script>
+    <script type="text/javascript" src="controllers/register.js"></script>
     <script type="text/javascript" src="controllers/home.js"></script>
     <script type="text/javascript" src="controllers/browse.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="services/auth.js"></script>
+    <script type="text/javascript" src="services/paintings.js"></script>
   </head>
   <body>
     <button class="btn btn-primary" ui-sref="Home">Home</button>
     <button class="btn btn-primary" ui-sref="Browse">Browse</button>
+    <button class="btn btn-primary" ui-sref="Login">Login</button>
+    <button class="btn btn-primary" ui-sref="Register">Register</button>
+
     <ui-view></ui-view>
   </body>
 </html>

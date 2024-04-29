@@ -1,0 +1,18 @@
+<main class="col-md-4 col-md-offset-4">
+    <h1>Login</h1>
+    <form ng-submit="login()">
+        <section class="form-group">
+            <label>Username</label>
+            <input class="form-control" type="text" ng-model="state.username" required autofocus/>
+        </section>
+
+        <section class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" ng-model="state.password" required/>
+        </section>
+
+        <button class="btn btn-primary " type="submit">Login</button>
+    </form>
+
+    <a ui-sref="Register">Don't have an account? Register</a>
+</main>

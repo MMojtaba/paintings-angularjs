@@ -1,11 +1,25 @@
-const app = angular.module("PaintingsApp", ["ui.router"]);
+const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider) {
+
+  $stateProvider.state("Login", {
+    url: "/login",
+    templateUrl: "./templates/login.html",
+    controller: "LoginCtrl"
+  });
+
+  $stateProvider.state("Register", {
+    url: "/register",
+    templateUrl: "./templates/register.html",
+    controller: "RegisterCtrl"
+  });
+
   $stateProvider.state("Home", {
     url: "/home",
-    template: "<h1>Welcome to home!</h1> <p> {{ message }}</p>",
+    templateUrl: "./templates/home.html",
     controller: "HomeCtrl"
   });
+
 
   $stateProvider.state("Browse", {
     url: "/browse",
