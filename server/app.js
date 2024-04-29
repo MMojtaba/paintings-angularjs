@@ -44,6 +44,7 @@ router.get("/api/hello", (req, res) => {
   console.log("yes");
   res.send("Hello World!");
 });
+const bcrypt = require("bcrypt");
 
 app.post("/api/register", (req, res) => {
   const { username, password } = req.body;
@@ -52,15 +53,22 @@ app.post("/api/register", (req, res) => {
   if (!username || !password)
     return res.status(400).send("Username or passsword not provided.");
 
-  UserModel.create({ username, password })
-    .then(function (user) {
-      console.log("Successfully created user", user.username);
-      res.status(200).send("created user");
-    })
-    .catch(function (err) {
-      console.error("Error creating user", err);
-      res.status(500).send("error registering");
-    });
+  const saltRounds = 10;
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      console.error("Error hashing");
+      res.status(500).send();
+    }
+    UserModel.create({ username, password: hash })
+      .then(function (user) {
+        console.log("Successfully created user", user.username);
+        res.status(200).send("created user");
+      })
+      .catch(function (err) {
+        console.error("Error creating user", err);
+        res.status(500).send("error registering");
+      });
+  });
 });
 
 app.post(

@@ -9,8 +9,10 @@ angular.module("PaintingsApp").controller("LoginCtrl", [
     };
 
     $scope.login = function () {
-      AuthService.login($scope.state.username, $scope.state.password);
-      $state.go("Home");
+      AuthService.login($scope.state.username, $scope.state.password).then(() =>
+        $state.go("Home")
+      );
+
       console.log("tring to login");
     };
   }
