@@ -2,9 +2,9 @@ angular.module("PaintingsApp").factory("PaintingsService", [
   "$resource",
   function ($resource) {
     //Get all paintings
-    const GetAll = $resource("/api/paintings");
+    const Paintings = $resource("/api/paintings");
     this.getAll = function () {
-      return GetAll.get().$promise;
+      return Paintings.get().$promise;
     };
 
     return this;

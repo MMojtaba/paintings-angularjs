@@ -1,6 +1,6 @@
 const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
-app.config(function ($stateProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state("Login", {
     url: "/login",
     templateUrl: "templates/login.html",
@@ -24,4 +24,6 @@ app.config(function ($stateProvider) {
     templateUrl: "templates/browse.html",
     controller: "BrowseCtrl"
   });
+
+  $urlRouterProvider.otherwise("/login");
 });

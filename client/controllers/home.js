@@ -1,25 +1,33 @@
 angular.module("PaintingsApp").controller("HomeCtrl", [
   "$scope",
   "$state",
+  "$timeout",
   "PaintingsService",
   "AuthService",
-  function ($scope, $state, PaintingsService, AuthService) {
-    $scope.message = "Default message";
+  function ($scope, $state, $timeout, PaintingsService, AuthService) {
+    $scope.state = { message: "Default message" };
 
-    function init() {
-      PaintingsService.getAll()
-        .then((res) => {
-          $scope.message = res.message;
-        })
-        .catch((err) => {
-          console.log("Error", err);
-          $scope.message = "not authenticated";
+    async function init() {
+      try {
+        const paintings = await PaintingsService.getAll();
+        $timeout(function () {
+          $scope.state.message = paintings.message;
         });
+        // $scope.state.message = paintings.message;
+      } catch (err) {
+        console.error("Error", err);
+        $scope.state.message = "not authenticated";
+      }
     }
     init();
 
-    $scope.logout = function () {
-      AuthService.logout().then(() => $state.go("Login"));
+    $scope.logout = async function () {
+      try {
+        await AuthService.logout();
+        $state.go("Login");
+      } catch (err) {
+        console.error("Erro logging out", err);
+      }
     };
   }
 ]);

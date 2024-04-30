@@ -16,32 +16,31 @@ function initPassport(passport) {
   });
 
   passport.use(
-    new LocalStrategy(function verify(username, password, callback) {
-      UserModel.findOne({ username: username })
-        .then(function (user) {
-          if (!user) {
-            console.log("User not found.");
-            return callback(null, false, { message: "User not found." });
-          }
+    new LocalStrategy(async function verify(username, password, callback) {
+      try {
+        const user = await UserModel.findOne({ username: username });
+        if (!user) {
+          console.log("User not found.");
+          return callback(null, false, { message: "User not found." });
+        }
 
-          Bcrypt.compare(password, user.password, function (err, result) {
-            if (err) {
-              console.error("Error hashing password.");
-              return callback(err);
-            } else if (result) {
-              //passwords match
-              console.log("successfully logged in", user.username);
-              return callback(null, user);
-            } else {
-              console.log("Incorrect password.");
-              return callback(null, false, { message: "Incorrect password." });
-            }
-          });
-        })
-        .catch(function (err) {
-          console.error("Error getting the user");
-          return callback(err);
+        Bcrypt.compare(password, user.password, function (err, result) {
+          if (err) {
+            console.error("Error hashing password.");
+            return callback(err);
+          } else if (result) {
+            //passwords match
+            console.log("successfully logged in", user.username);
+            return callback(null, user);
+          } else {
+            console.log("Incorrect password.");
+            return callback(null, false, { message: "Incorrect password." });
+          }
         });
+      } catch (err) {
+        console.error("Error getting the user");
+        return callback(err);
+      }
     })
   );
 }

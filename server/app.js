@@ -23,10 +23,12 @@ const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/db";
 // Init database
 mongoose
   .connect(dbPath)
-  .then(() => {
-    console.log("connection to database successful");
+  .then(function () {
+    console.log("Connection to database successful");
   })
-  .catch((err) => console.log(err));
+  .catch(function (err) {
+    console.log("Error connecting to the database", err);
+  });
 
 // Host client
 app.use(express.static(path.join(__dirname, "../client")));
@@ -42,21 +44,19 @@ app.use(
   })
 );
 AuthService.initPassport(passport);
-// app.use(passport.initialize());
 app.use(passport.session());
-// app.use(passport.authenticate("session"));
 
 // Add routes
 app.use("/api", authRoutes);
 app.use("/api", paintingsRoutes);
 
 // Client route
-app.get("*", (req, res) => {
+app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../client", "index.html"));
 });
 
 // Start server
-app.listen(PORT, (error) => {
-  if (!error) console.log("Success");
-  else console.log("Error, error");
+app.listen(PORT, function (error) {
+  if (error) console.log("Error starting Server", err);
+  else console.log("Started server at http://localhost:" + PORT);
 });
