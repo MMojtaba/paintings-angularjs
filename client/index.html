@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PaintingsApp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paintings</title>
+
+    <!-- Library -->
+    <script type="text/javascript" src="lib/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="lib/angular-resource.min.js"></script>
+
+    <!-- app -->
+    <script type="text/javascript" src="client.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Services -->
+    <script type="text/javascript" src="services/auth.js"></script>
+    <script type="text/javascript" src="services/paintings.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="controllers/login.js"></script>
+    <script type="text/javascript" src="controllers/register.js"></script>
+    <script type="text/javascript" src="controllers/home.js"></script>
+    <script type="text/javascript" src="controllers/browse.js"></script>
+  </head>
+  <body>
+    <ui-view></ui-view>
+  </body>
+</html>
