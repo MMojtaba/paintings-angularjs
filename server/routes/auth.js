@@ -8,8 +8,7 @@ const UserModel = require("../models/User.js");
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login"
+    successRedirect: "/"
   })
 );
 
