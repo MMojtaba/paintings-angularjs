@@ -1,6 +1,6 @@
 const LocalStrategy = require("passport-local");
 const UserModel = require("../models/User.js");
-const crypto = require("crypto");
+const Bcrypt = require("bcrypt");
 
 function initPassport(passport) {
   passport.serializeUser(function (user, callback) {
@@ -23,12 +23,20 @@ function initPassport(passport) {
             console.log("User not found.");
             return callback(null, false, { message: "User not found." });
           }
-          if (user.password !== password) {
-            console.log("Incorrect password.");
-            return callback(null, false, { message: "Incorrect password." });
-          }
-          // Success
-          return callback(null, user);
+
+          Bcrypt.compare(password, user.password, function (err, result) {
+            if (err) {
+              console.error("Error hashing password.");
+              return callback(err);
+            } else if (result) {
+              //passwords match
+              console.log("successfully logged in", user.username);
+              return callback(null, user);
+            } else {
+              console.log("Incorrect password.");
+              return callback(null, false, { message: "Incorrect password." });
+            }
+          });
         })
         .catch(function (err) {
           console.error("Error getting the user");

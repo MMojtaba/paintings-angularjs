@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const Bcrypt = require("bcrypt");
 
 const UserModel = require("../models/User.js");
 
@@ -25,15 +26,18 @@ router.post("/register", (req, res) => {
   if (!username || !password)
     return res.status(400).send("Username or password not provided.");
 
-  UserModel.create({ username, password })
-    .then(function (user) {
-      console.log("Success registering ", user?.username);
-      res.status(200).send("Created user!");
-    })
-    .catch(function (err) {
-      console.error("Error creating user", err);
-      res.status(500).send("Error registering.");
-    });
+  const saltRounds = 10;
+  Bcrypt.hash(password, saltRounds, function (err, hash) {
+    UserModel.create({ username, password: hash })
+      .then(function (user) {
+        console.log("Success registering ", user?.username);
+        res.status(200).send("Created user!");
+      })
+      .catch(function (err) {
+        console.error("Error creating user", err);
+        res.status(500).send("Error registering.");
+      });
+  });
 });
 
 module.exports = router;
