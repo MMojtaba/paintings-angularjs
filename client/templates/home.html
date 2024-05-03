@@ -1,3 +1,45 @@
-<p>{{ state.message }}</p>
+<style>
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+  .main-image {
+    width: 80vw;
+    /* height: auto; */
+    height: 50vh;
+    outline: 3px solid rgb(73, 0, 67);
+    border-radius: 3px;
+  }
 
-<button class="btn btn-danger" ng-click="logout()">Logout</button>
+  .image-row-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image-row-header {
+    margin-left: 5%;
+  }
+
+  .image-row {
+    align-self: center;
+    width: 90%;
+    height: 30vh;
+    outline: 3px solid rgb(73, 0, 67);
+  }
+</style>
+<main class="main-container">
+  <section class="main-image"></section>
+
+  <section class="image-row-container">
+    <h2 class="image-row-header">Featured</h2>
+    <section class="image-row"></section>
+  </section>
+
+  <section class="image-row-container">
+    <h2 class="image-row-header">What's New</h2>
+    <section class="image-row"></section>
+  </section>
+</main>

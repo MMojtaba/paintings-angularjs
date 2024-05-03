@@ -1,0 +1,53 @@
+body {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(153, 2, 153),
+    rgb(223, 143, 212)
+  );
+  background-attachment: fixed; /*edit*/
+}
+
+.mx-0 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mx-1 {
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+}
+
+.mx-2 {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.mx-3 {
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.mx-4 {
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.mx-5 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-6 {
+  margin-left: 0.6rem;
+  margin-right: 0.6rem;
+}
+
+.mx-10 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-11 {
+  margin-left: 1.1rem;
+  margin-right: 1.1rem;
+}

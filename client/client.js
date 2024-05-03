@@ -25,5 +25,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controller: "BrowseCtrl"
   });
 
+  $stateProvider.state("Admin", {
+    url: "/admin",
+    templateUrl: "templates/admin.html",
+    controller: "AdminCtrl"
+  });
+
+  $stateProvider.state("ImagePreview", {
+    url: "/imagePreview",
+    templateUrl: "templates/image-preview.html",
+    controller: "ImagePreviewCtrl"
+  });
+
   $urlRouterProvider.otherwise("/login");
 });

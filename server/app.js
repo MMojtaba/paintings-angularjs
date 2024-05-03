@@ -18,13 +18,14 @@ const app = express();
 
 // Set constants
 const PORT = process.env.APP_PORT || 3000;
-const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/db";
+const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
 
 // Init database
 mongoose
   .connect(dbPath)
   .then(function () {
     console.log("Connection to database successful");
+    // const gridFS = new mongoose.mongo.GridFSBucket(connection);
   })
   .catch(function (err) {
     console.log("Error connecting to the database", err);

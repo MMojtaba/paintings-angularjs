@@ -9,10 +9,10 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
 
     async function init() {
       try {
-        const paintings = await PaintingsService.getAll();
-        $timeout(function () {
-          $scope.state.message = paintings.message;
-        });
+        // const paintings = await PaintingsService.getAll();
+        // $timeout(function () {
+        //   $scope.state.message = paintings.message;
+        // });
         // $scope.state.message = paintings.message;
       } catch (err) {
         console.error("Error", err);
@@ -20,14 +20,5 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       }
     }
     init();
-
-    $scope.logout = async function () {
-      try {
-        await AuthService.logout();
-        $state.go("Login");
-      } catch (err) {
-        console.error("Erro logging out", err);
-      }
-    };
   }
 ]);

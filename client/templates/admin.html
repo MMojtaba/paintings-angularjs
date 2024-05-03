@@ -1,0 +1,36 @@
+<style>
+  .title-input {
+    width: 50%;
+  }
+  .description-input {
+    width: 80%;
+    height: 10rem;
+  }
+</style>
+
+<main class="mx-11">
+  <h1>Admin Page</h1>
+
+  <form ng-submit="uploadImage()">
+    <section class="form-group">
+      <label>Title</label>
+      <input
+        type="text"
+        class="form-control title-input"
+        ng-model="state.title" />
+    </section>
+    <section class="form-group">
+      <label>Description</label>
+      <input
+        type="textarea"
+        class="form-control description-input"
+        ng-model="state.description" />
+    </section>
+    <section class="form-group">
+      <label>Upload Image</label>
+      <input type="file" ng-model="imageFile" accept="image/*" />
+    </section>
+
+    <button type="submit">Save</button>
+  </form>
+</main>
