@@ -4,7 +4,8 @@ body {
     rgb(153, 2, 153),
     rgb(223, 143, 212)
   );
-  background-attachment: fixed; /*edit*/
+  background-attachment: fixed;
+  color: rgb(255, 255, 255);
 }
 
 .mx-0 {
@@ -50,4 +51,26 @@ body {
 .mx-11 {
   margin-left: 1.1rem;
   margin-right: 1.1rem;
+}
+
+.my-0 {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+.my-10 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mb-10 {
+  margin-bottom: 1rem;
+}
+
+.bg-purple {
+  background-color: purple;
+}
+
+.bg-red {
+  background-color: rgb(168, 33, 51);
 }

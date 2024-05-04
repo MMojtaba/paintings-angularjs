@@ -9,6 +9,8 @@ angular.module("PaintingsApp").controller("RegisterCtrl", [
       passwordRe: ""
     };
 
+    console.log("in register ctrl");
+
     //Verify that the passwords match
     function verifyPassword() {
       return $scope.state.password === $scope.state.passwordRe;
