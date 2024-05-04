@@ -1,2 +1,26 @@
-<h1>Welcome to browse!</h1>
-<p>{{ message }}</p>
+<main>
+  <!-- Filter section -->
+  <form ng-submit="search()">
+    <span>
+      <label>Keyword</label>
+      <input type="text" placeholder="Search by keyword..." />
+    </span>
+
+    <span>
+      <label>Date</label>
+      <input type="date" />
+    </span>
+
+    <span>
+      <label>Category</label>
+      <select value="One">
+        <option>One</option>
+      </select>
+    </span>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+
+  <!-- Results section -->
+  <section></section>
+</main>
