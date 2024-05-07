@@ -25,7 +25,7 @@ mongoose
   .connect(dbPath)
   .then(function () {
     console.log("Connection to database successful");
-    // const gridFS = new mongoose.mongo.GridFSBucket(connection);
+    // const gridFS = new mongoose.mongo.GridFSBucket("pjs-db");
   })
   .catch(function (err) {
     console.log("Error connecting to the database", err);
@@ -33,8 +33,8 @@ mongoose
 
 // Host client
 app.use(express.static(path.join(__dirname, "../client")));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 // Authentication
 app.use(

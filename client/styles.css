@@ -1,11 +1,11 @@
 body {
   background-image: linear-gradient(
     to bottom right,
-    rgb(153, 2, 153),
-    rgb(223, 143, 212)
+    rgb(220, 194, 255),
+    rgb(244, 244, 244)
   );
   background-attachment: fixed;
-  color: rgb(255, 255, 255);
+  color: black;
 }
 
 .mx-0 {
