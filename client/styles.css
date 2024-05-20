@@ -87,6 +87,10 @@ body {
   background-color: rgb(168, 33, 51) !important;
 }
 
+.bg-grey {
+  background-color: rgb(75, 75, 75) !important;
+}
+
 .image-container {
   /* width: 20vw; */
   width: 100%;

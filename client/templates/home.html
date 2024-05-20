@@ -10,7 +10,7 @@
   }
 
   .column-header {
-    border: 5px solid black;
+    /* border: 5px solid black; */
     border-radius: 10px;
     background-color: black;
     color: white;
@@ -31,6 +31,7 @@
   </section>
 
   <section style="width: 60%">
+    <h2 class="column-header bg-grey">{{state.selectedImage.title}}</h2>
     <section class="image-container">
       <img
         src="{{state.selectedImage.content}}"
