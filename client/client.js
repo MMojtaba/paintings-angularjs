@@ -26,7 +26,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("ImagePreview", {
-    url: "/imagePreview",
+    url: "/imagePreview/:id",
     templateUrl: "templates/image-preview.html",
     controller: "ImagePreviewCtrl"
   });

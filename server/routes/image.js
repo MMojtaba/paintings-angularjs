@@ -70,8 +70,18 @@ router.get("/images", async function (req, res) {
 // Get specified image with the given id
 router.get("/images/:id", async function (req, res) {
   const fileId = req.params.id;
-  console.log("in get by id", fileId, req.params);
+  try {
+    const imageInfo = await ImageModel.findOne({ fileId: fileId });
 
+    if (!imageInfo) return res.status(404).send("Image not found.");
+
+    const images = await getImages([imageInfo]);
+
+    return res.status(200).send(images?.at(0));
+  } catch (err) {
+    console.error("Error getting image", err);
+    return res.status(500).send("Error getting image.");
+  }
   res.status(200).send();
 });
 

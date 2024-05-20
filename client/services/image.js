@@ -6,7 +6,7 @@ angular.module("PaintingsApp").factory("ImageService", [
       {},
       {
         getAll: { method: "GET", isArray: true },
-        getFeatured: { method: "GET", url: "/api/featured" },
+        getOne: { method: "GET", url: "/api/images/:id" },
         upload: {
           method: "POST",
           transformRequest: angular.identity,
@@ -37,10 +37,11 @@ angular.module("PaintingsApp").factory("ImageService", [
       return images;
     };
 
-    this.getFeatured = async function () {
-      const image = await ImageResource.getFeatured().$promise;
+    // Get a painting by its fileId
+    this.getOne = async function (fileId) {
+      const image = await ImageResource.getOne({ id: fileId }).$promise;
       if (!image) {
-        console.warn("No featured image found.");
+        console.error("Image not found.");
         return null;
       }
 

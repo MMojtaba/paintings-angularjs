@@ -43,6 +43,7 @@
     <section class="image-row">
       <img
         ng-repeat="image in state.images track by $index"
+        ng-click="handleImageClick(image)"
         src="{{image.content}}" />
     </section>
   </section>
