@@ -1,13 +1,12 @@
-angular.module("PaintingsApp").factory("PaintingsService", [
+angular.module("PaintingsApp").factory("ImageService", [
   "$resource",
   function ($resource) {
-    const Paintings = $resource(
-      "/api/paintings",
+    const ImageResource = $resource(
+      "/api/images",
       {},
       {
         getAll: { method: "GET", isArray: true },
         getFeatured: { method: "GET", url: "/api/featured" },
-        getById: { url: "/api/paintings/1" },
         upload: {
           method: "POST",
           transformRequest: angular.identity,
@@ -26,7 +25,7 @@ angular.module("PaintingsApp").factory("PaintingsService", [
       };
     }
 
-    //Upload a painting
+    //Upload an image
     this.upload = function (image, title, descr, category, isFeatured) {
       const formData = new FormData();
       formData.append("file", image);
@@ -35,38 +34,28 @@ angular.module("PaintingsApp").factory("PaintingsService", [
       formData.append("category", category);
       formData.append("isFeatured", category);
 
-      // await $http.post("/api/paintings", formData, {
-      //   transformRequest: angular.identity,
-      //   headers: {
-      //     "Content-Type": undefined
-      //   }
-      // });
-
-      return Paintings.upload(formData).$promise;
+      return ImageResource.upload(formData).$promise;
     };
 
     //Get all paintings
     this.getAll = async function () {
-      const paintings = await Paintings.getAll().$promise;
-      if (!paintings) return [];
+      const images = await ImageResource.getAll().$promise;
+      if (!images) return [];
 
-      const parsedImages = paintings.map(parseImage);
+      const parsedImages = images.map(parseImage);
 
       return parsedImages;
     };
 
     this.getFeatured = async function () {
-      console.log("in get featured");
-      const painting = await Paintings.getFeatured().$promise;
-      const parsedImage = parseImage(painting);
-      console.log("got imagexx", parsedImage);
+      const image = await ImageResource.getFeatured().$promise;
+      if (!image) {
+        console.warn("No featured image found.");
+        return null;
+      }
+      const parsedImage = parseImage(image);
 
       return parsedImage;
-    };
-
-    //get single
-    this.getById = function () {
-      return Paintings.getById().$promise;
     };
 
     return this;

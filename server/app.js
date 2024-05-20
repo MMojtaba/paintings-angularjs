@@ -9,7 +9,7 @@ require("dotenv").config();
 
 // Routes
 const authRoutes = require("./routes/auth.js");
-const paintingsRoutes = require("./routes/paintings.js");
+const imageRoutes = require("./routes/images.js");
 
 // Services
 const AuthService = require("./services/auth.js");
@@ -56,7 +56,7 @@ app.use(passport.session());
 
 // Add routes
 app.use("/api", authRoutes);
-app.use("/api", paintingsRoutes);
+app.use("/api", imageRoutes);
 
 // Client route
 app.get("*", function (req, res) {

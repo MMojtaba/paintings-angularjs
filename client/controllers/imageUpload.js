@@ -1,7 +1,7 @@
 angular.module("PaintingsApp").controller("ImageUploadCtrl", [
   "$scope",
-  "PaintingsService",
-  function ($scope, PaintingsService) {
+  "ImageService",
+  function ($scope, ImageService) {
     $scope.state = {
       image: null,
       title: "",
@@ -63,7 +63,7 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
       }
 
       try {
-        await PaintingsService.upload(
+        await ImageService.upload(
           $scope.state.image,
           $scope.state.title,
           $scope.state.descr,
