@@ -17,6 +17,13 @@ angular.module("PaintingsApp").factory("ImageService", [
       }
     );
 
+    async function genericGetAll(query) {
+      const images = await ImageResource.getAll(query).$promise;
+      if (!images) return [];
+
+      return images;
+    }
+
     //Upload an image
     this.upload = function (image, title, descr, category, isFeatured) {
       const formData = new FormData();
@@ -29,12 +36,14 @@ angular.module("PaintingsApp").factory("ImageService", [
       return ImageResource.upload(formData).$promise;
     };
 
-    //Get all paintings
-    this.getAll = async function () {
-      const images = await ImageResource.getAll().$promise;
-      if (!images) return [];
+    // Get all paintings
+    this.getAll = function () {
+      return genericGetAll();
+    };
 
-      return images;
+    // Get featured paintings
+    this.getFeatured = async function () {
+      return genericGetAll({ featured: true });
     };
 
     // Get a painting by its fileId

@@ -21,6 +21,7 @@ dbConnection.once("open", () => {
 
 // Puts image in a format that can be used by the frontend
 function parseImageBeforeSend(image, buffer) {
+  // TODO: use actual file type instead of png
   const content = `data:image/png;base64, ${buffer.toString("base64")}`;
   const parsedImage = JSON.parse(JSON.stringify(image));
   parsedImage.content = content;
@@ -51,6 +52,10 @@ router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
     const parsedQuery = {};
+    if (Object.hasOwn(req.query, "featured"))
+      parsedQuery.featured = req.query.featured;
+
+    console.log("query is", parsedQuery);
 
     const imageInfos = await ImageModel.find(parsedQuery).limit(limit);
 
@@ -82,7 +87,6 @@ router.get("/images/:id", async function (req, res) {
     console.error("Error getting image", err);
     return res.status(500).send("Error getting image.");
   }
-  res.status(200).send();
 });
 
 // Upload the image
