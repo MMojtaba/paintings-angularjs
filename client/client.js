@@ -25,5 +25,30 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     controller: "BrowseCtrl"
   });
 
-  $urlRouterProvider.otherwise("/login");
+  $stateProvider.state("ImagePreview", {
+    url: "/imagePreview/:id",
+    templateUrl: "templates/image-preview.html",
+    controller: "ImagePreviewCtrl"
+  });
+
+  $stateProvider.state("Admin", {
+    abstract: true,
+    url: "/admin",
+    templateUrl: "templates/admin.html",
+    controller: "AdminCtrl"
+  });
+
+  $stateProvider.state("Admin.ImageUpload", {
+    url: "/image-upload",
+    templateUrl: "templates/image-upload.html",
+    controller: "ImageUploadCtrl"
+  });
+
+  $stateProvider.state("Admin.Register", {
+    url: "/register",
+    templateUrl: "templates/register.html",
+    controller: "RegisterCtrl"
+  });
+
+  $urlRouterProvider.otherwise("/home");
 });

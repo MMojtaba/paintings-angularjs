@@ -1,0 +1,97 @@
+body {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(220, 194, 255),
+    rgb(244, 244, 244)
+  );
+  background-attachment: fixed;
+  color: black;
+}
+
+.mx-0 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mx-1 {
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+}
+
+.mx-2 {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.mx-3 {
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.mx-4 {
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.mx-5 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-6 {
+  margin-left: 0.6rem;
+  margin-right: 0.6rem;
+}
+
+.mx-10 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-11 {
+  margin-left: 1.1rem;
+  margin-right: 1.1rem;
+}
+
+.my-0 {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+.my-10 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mb-10 {
+  margin-bottom: 1rem;
+}
+
+.width-70 {
+  width: 60% !important;
+}
+
+.height-auto {
+  height: auto !important;
+}
+
+.bg-purple {
+  background-color: purple;
+}
+
+.bg-red {
+  background-color: rgb(168, 33, 51);
+}
+
+.image-container {
+  /* width: 20vw; */
+  width: 100%;
+  /* height: 20vh; */
+  outline: 3px solid rgb(73, 0, 67);
+  border-radius: 3px;
+  margin-top: 1rem;
+}
+
+.image-container > img {
+  width: 100%;
+}

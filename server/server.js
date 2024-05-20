@@ -9,7 +9,7 @@ require("dotenv").config();
 
 // Routes
 const authRoutes = require("./routes/auth.js");
-const paintingsRoutes = require("./routes/paintings.js");
+const imageRoutes = require("./routes/image.js");
 
 // Services
 const AuthService = require("./services/auth.js");
@@ -18,7 +18,7 @@ const app = express();
 
 // Set constants
 const PORT = process.env.APP_PORT || 3000;
-const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/db";
+const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
 
 // Init database
 mongoose
@@ -48,7 +48,7 @@ app.use(passport.session());
 
 // Add routes
 app.use("/api", authRoutes);
-app.use("/api", paintingsRoutes);
+app.use("/api", imageRoutes);
 
 // Client route
 app.get("*", function (req, res) {
@@ -56,7 +56,7 @@ app.get("*", function (req, res) {
 });
 
 // Start server
-app.listen(PORT, function (error) {
-  if (error) console.log("Error starting Server", err);
+app.listen(PORT, function (err) {
+  if (err) console.log("Error starting Server", err);
   else console.log("Started server at http://localhost:" + PORT);
 });

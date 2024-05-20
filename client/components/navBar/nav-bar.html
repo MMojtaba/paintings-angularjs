@@ -1,0 +1,47 @@
+<style>
+  .nav-bar-container {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .nav-button {
+    width: 15%;
+    border-radius: 20rem;
+    font-size: 2rem;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .nav-logo {
+    width: 20%;
+    height: 5rem;
+    margin-left: 2rem;
+    background-color: white;
+  }
+
+  .right-nav {
+    justify-self: right;
+    align-self: right;
+  }
+</style>
+
+<nav class="my-10 nav-bar-container">
+  <img class="nav-logo" src="./assets/logo.png" />
+  <button class="btn btn-primary nav-button bg-purple" ui-sref="Home">
+    Home
+  </button>
+  <button class="btn btn-primary nav-button bg-purple" ui-sref="Browse">
+    Browse
+  </button>
+  <button
+    class="btn btn-primary nav-button right-nav bg-purple"
+    ui-sref="Admin.ImageUpload">
+    Admin
+  </button>
+  <button
+    class="btn btn-danger nav-button right-nav bg-red"
+    ng-click="logout()">
+    Logout
+  </button>
+</nav>

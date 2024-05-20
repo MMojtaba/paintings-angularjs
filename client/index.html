@@ -19,15 +19,22 @@
 
     <!-- Services -->
     <script type="text/javascript" src="services/auth.js"></script>
-    <script type="text/javascript" src="services/paintings.js"></script>
+    <script type="text/javascript" src="services/image.js"></script>
 
-    <!-- Controllers -->
+    <!-- View Controllers -->
     <script type="text/javascript" src="controllers/login.js"></script>
     <script type="text/javascript" src="controllers/register.js"></script>
     <script type="text/javascript" src="controllers/home.js"></script>
     <script type="text/javascript" src="controllers/browse.js"></script>
+    <script type="text/javascript" src="controllers/admin.js"></script>
+    <script type="text/javascript" src="controllers/imagePreview.js"></script>
+    <script type="text/javascript" src="controllers/imageUpload.js"></script>
+
+    <!-- Components -->
+    <script type="text/javascript" src="components/navBar/navBar.js"></script>
   </head>
   <body>
+    <nav-bar></nav-bar>
     <ui-view></ui-view>
   </body>
 </html>

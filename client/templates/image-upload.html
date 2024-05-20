@@ -1,0 +1,45 @@
+<main class="mx-11">
+  <h1>Admin Page</h1>
+
+  <form ng-submit="uploadImage()" enctype="multipart/form-data">
+    <!-- TODO: make required -->
+    <section class="form-group">
+      <label>Title</label>
+      <input
+        type="text"
+        class="form-control title-input"
+        ng-model="state.title" />
+    </section>
+
+    <section class="form-group">
+      <label>Description</label>
+      <input
+        type="textarea"
+        class="form-control description-input"
+        ng-model="state.descr" />
+    </section>
+
+    <section class="form-group">
+      <label>Category</label>
+      <select>
+        <option>General</option>
+      </select>
+    </section>
+
+    <select class="form-group" ng-model="state.isFeatured">
+      <option ng-value="true">Yes</option>
+      <option ng-value="false">No</option>
+    </select>
+
+    <section class="form-group">
+      <label>Upload Image</label>
+      <input type="file" id="imageInput" name="file" accept="image/*" />
+    </section>
+
+    <button type="submit" class="btn btn-success">Upload</button>
+
+    <section class="form-group" ng-if="state.image">
+      <img src="{{state.imagePreview}}" />
+    </section>
+  </form>
+</main>

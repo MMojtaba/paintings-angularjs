@@ -1,3 +1,47 @@
-<p>{{ state.message }}</p>
+<style>
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    /* gap: 3rem; */
+  }
 
-<button class="btn btn-danger" ng-click="logout()">Logout</button>
+  .main-container > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+</style>
+
+<main class="main-container">
+  <section style="width: 20%">
+    <h2>Featured</h2>
+    <section
+      class="image-container"
+      ng-repeat="image in state.featured track by $index">
+      <img
+        ng-click="handleImageClick(image)"
+        src="{{image.content}}"
+        alt="Loading" />
+    </section>
+  </section>
+
+  <section style="width: 60%">
+    <section class="image-container">
+      <img
+        src="{{state.selectedImage.content}}"
+        alt="Image"
+        ng-click="handleImageClick(state.selectedImage)" />
+    </section>
+  </section>
+
+  <section style="width: 20%">
+    <h2>New</h2>
+    <section
+      class="image-container"
+      ng-repeat="image in state.images track by $index">
+      <img ng-click="handleImageClick(image)" src="{{image.content}}" />
+    </section>
+  </section>
+</main>
+
+<!-- TODO: load more buttons -->
