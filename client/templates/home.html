@@ -2,26 +2,31 @@
   .main-container {
     display: flex;
     flex-direction: row;
-    /* align-items: center; */
-    /* gap: 3rem; */
   }
 
   .main-container > * {
     margin-left: 1rem;
     margin-right: 1rem;
   }
+
+  .column-header {
+    border: 5px solid black;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    padding: 0.3rem;
+    text-align: center;
+    font-family: var(--main-font);
+  }
 </style>
 
 <main class="main-container">
   <section style="width: 20%">
-    <h2>Featured</h2>
+    <h2 class="column-header">Featured</h2>
     <section
       class="image-container"
       ng-repeat="image in state.featured track by $index">
-      <img
-        ng-click="handleImageClick(image)"
-        src="{{image.content}}"
-        alt="Loading" />
+      <img ng-click="handleImageClick(image)" src="{{image.content}}" />
     </section>
   </section>
 
@@ -29,13 +34,12 @@
     <section class="image-container">
       <img
         src="{{state.selectedImage.content}}"
-        alt="Image"
         ng-click="handleImageClick(state.selectedImage)" />
     </section>
   </section>
 
   <section style="width: 20%">
-    <h2>New</h2>
+    <h2 class="column-header">What's New</h2>
     <section
       class="image-container"
       ng-repeat="image in state.images track by $index">

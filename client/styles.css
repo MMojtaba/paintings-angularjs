@@ -1,3 +1,7 @@
+:root {
+  --main-font: "Brush Script MT", cursive;
+}
+
 body {
   background-image: linear-gradient(
     to bottom right,
@@ -76,11 +80,11 @@ body {
 }
 
 .bg-purple {
-  background-color: purple;
+  background-color: purple !important;
 }
 
 .bg-red {
-  background-color: rgb(168, 33, 51);
+  background-color: rgb(168, 33, 51) !important;
 }
 
 .image-container {

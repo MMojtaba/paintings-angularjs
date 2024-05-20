@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
-require("dotenv").config();
+require("dotenv").config(); //TODO: add .env to gitignore and add a sample .env file
 
 // Routes
 const authRoutes = require("./routes/auth.js");
