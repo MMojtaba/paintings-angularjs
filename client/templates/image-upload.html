@@ -26,23 +26,20 @@
       </select>
     </section>
 
-    <section class="form-group">
-      <label>Featured</label>
-      <select>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </section>
+    <select class="form-group" ng-model="state.isFeatured">
+      <option ng-value="true">Yes</option>
+      <option ng-value="false">No</option>
+    </select>
 
     <section class="form-group">
       <label>Upload Image</label>
       <input type="file" id="imageInput" name="file" accept="image/*" />
     </section>
 
+    <button type="submit" class="btn btn-success">Upload</button>
+
     <section class="form-group" ng-if="state.image">
       <img src="{{state.imagePreview}}" />
     </section>
-
-    <button type="submit" class="btn btn-success">Upload</button>
   </form>
 </main>

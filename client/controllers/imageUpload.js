@@ -49,8 +49,8 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
           $scope.$apply();
         };
         reader.readAsDataURL(image);
-      } catch (error) {
-        console.error("Error reading image.", error);
+      } catch (err) {
+        console.error("Error reading image.", err);
         return;
       }
     }

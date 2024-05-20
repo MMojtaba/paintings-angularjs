@@ -56,7 +56,7 @@ app.get("*", function (req, res) {
 });
 
 // Start server
-app.listen(PORT, function (error) {
-  if (error) console.log("Error starting Server", err);
+app.listen(PORT, function (err) {
+  if (err) console.log("Error starting Server", err);
   else console.log("Started server at http://localhost:" + PORT);
 });

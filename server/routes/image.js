@@ -30,6 +30,7 @@ function parseImageBeforeSend(image, buffer) {
 
 // Gets images from gridfs based on the given ImageModel objects provided
 async function getImages(imageInfos) {
+  // TODO: add caching
   const images = await Promise.all(
     imageInfos.map(async (info) => {
       const chunks = [];
