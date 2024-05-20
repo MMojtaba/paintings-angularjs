@@ -32,7 +32,10 @@
 </style>
 <main class="main-container">
   <section class="main-image">
-    <img src="{{state.featured.url}}" alt="Image" />
+    <img
+      src="{{state.featured.content}}"
+      alt="Image"
+      ng-click="handleImageClick(state.featured)" />
   </section>
 
   <section class="image-row-container">
@@ -40,7 +43,7 @@
     <section class="image-row">
       <img
         ng-repeat="image in state.images track by $index"
-        src="{{image.url}}" />
+        src="{{image.content}}" />
     </section>
   </section>
 

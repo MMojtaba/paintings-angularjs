@@ -13,7 +13,7 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
     async function init() {
       try {
         $scope.state.images = await ImageService.getAll();
-        $scope.state.featured = await ImageService.getFeatured();
+        // $scope.state.featured = await ImageService.getFeatured();
         $scope.$apply();
       } catch (err) {
         $scope.state.images = [];
@@ -21,5 +21,9 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       }
     }
     init();
+
+    $scope.handleImageClick = function (image) {
+      console.log("in handle click", image);
+    };
   }
 ]);

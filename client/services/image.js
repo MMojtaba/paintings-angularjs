@@ -17,14 +17,6 @@ angular.module("PaintingsApp").factory("ImageService", [
       }
     );
 
-    // Given an image's base64 data, it puts it in the correct format
-    function parseImage(image) {
-      return {
-        filename: image.filename,
-        url: `data:image/png;base64,${image.data}`
-      };
-    }
-
     //Upload an image
     this.upload = function (image, title, descr, category, isFeatured) {
       const formData = new FormData();
@@ -42,9 +34,7 @@ angular.module("PaintingsApp").factory("ImageService", [
       const images = await ImageResource.getAll().$promise;
       if (!images) return [];
 
-      const parsedImages = images.map(parseImage);
-
-      return parsedImages;
+      return images;
     };
 
     this.getFeatured = async function () {
@@ -53,9 +43,8 @@ angular.module("PaintingsApp").factory("ImageService", [
         console.warn("No featured image found.");
         return null;
       }
-      const parsedImage = parseImage(image);
 
-      return parsedImage;
+      return image;
     };
 
     return this;
