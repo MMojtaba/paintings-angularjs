@@ -21,20 +21,27 @@ const PORT = process.env.APP_PORT || 3000;
 const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
 
 // Init database
-mongoose
-  .connect(dbPath)
-  .then(function () {
-    console.log("Connection to database successful");
-    // const gridFS = new mongoose.mongo.GridFSBucket("pjs-db");
-  })
-  .catch(function (err) {
-    console.log("Error connecting to the database", err);
-  });
+// mongoose
+//   .connect(dbPath)
+//   .then(function () {
+//     console.log("Connection to database successful");
+//     // const gridFS = new mongoose.mongo.GridFSBucket("pjs-db");
+//     const gfs = Grid("pjs-db", mongoose.mongo);
+//     gfs.collection("uploads");
+//   })
+//   .catch(function (err) {
+//     console.log("Error connecting to the database", err);
+//   });
+
+const dbConnection = mongoose.createConnection(dbPath);
+dbConnection.once("open", () => {
+  console.log("Connected to database");
+});
 
 // Host client
 app.use(express.static(path.join(__dirname, "../client")));
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Authentication
 app.use(

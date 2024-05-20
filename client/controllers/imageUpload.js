@@ -3,20 +3,24 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
   "PaintingsService",
   function ($scope, PaintingsService) {
     $scope.state = {
+      image: null,
       title: "",
-      description: "",
+      descr: "",
       category: "",
-      image: null
+      isFeatured: false
     };
 
     function init() {
-      const imageFileElement = document.getElementById("imageFile");
+      // Add event lister to image input
+      const imageFileElement = document.getElementById("imageInput");
       if (imageFileElement) imageFileElement.onchange = handleImageSelect;
     }
     init();
 
+    // Runs when an image is selected
     function handleImageSelect(event) {
       const images = event.target.files;
+
       if (!images?.length) {
         console.error("No images selected.");
         return;
@@ -28,16 +32,20 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
         );
       const image = images[0];
 
+      // Make sure it's an image
       if (!image.type.match("image.*")) {
         console.error("Invalid file selected, please only upload images.");
         alert("Only images are accepted.");
         return;
       }
 
+      $scope.state.image = image;
+
+      // Preview the selected imag
       try {
         const reader = new FileReader();
         reader.onload = function (event) {
-          $scope.state.image = event.target.result;
+          $scope.state.imagePreview = event.target.result;
           $scope.$apply();
         };
         reader.readAsDataURL(image);
@@ -50,20 +58,21 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
     $scope.uploadImage = async function () {
       if (!$scope.state.image) {
         console.error("No image selected.");
-        alert("Please upload an image.");
+        alert("Please select an image.");
         return;
       }
 
       try {
         await PaintingsService.upload(
+          $scope.state.image,
           $scope.state.title,
-          $scope.state.description,
+          $scope.state.descr,
           $scope.state.category,
-          $scope.state.image
+          $scope.state.isFeatured
         );
-      } catch (error) {
-        alert("Error uploading painting");
-        console.error("Error uploading painting.", error);
+      } catch (err) {
+        alert("Error uploading image");
+        console.error("Error uploading image.", err);
       }
     };
   }

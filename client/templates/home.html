@@ -31,11 +31,17 @@
   }
 </style>
 <main class="main-container">
-  <section class="main-image"></section>
+  <section class="main-image">
+    <img src="{{state.featured.url}}" alt="Image" />
+  </section>
 
   <section class="image-row-container">
     <h2 class="image-row-header">Featured</h2>
-    <section class="image-row"></section>
+    <section class="image-row">
+      <img
+        ng-repeat="image in state.paintings track by $index"
+        src="{{image.url}}" />
+    </section>
   </section>
 
   <section class="image-row-container">
