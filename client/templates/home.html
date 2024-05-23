@@ -23,32 +23,32 @@
 <main class="main-container">
   <section class="width-20p">
     <h2 class="column-header">Featured</h2>
-    <section
-      class="image-container"
+    <img
       ng-repeat="image in state.featured track by $index"
-    >
-      <img ng-click="handleImageClick(image)" src="{{image.content}}" />
-    </section>
+      class="image-container"
+      ng-click="handleImageClick(image)"
+      src="{{image.content}}"
+    />
   </section>
 
   <section class="width-60p">
     <h2 class="column-header bg-grey">{{state.selectedImage.title}}</h2>
-    <section class="image-container">
-      <img
-        src="{{state.selectedImage.content}}"
-        ng-click="handleImageClick(state.selectedImage)"
-      />
-    </section>
+    <img
+      class="image-container"
+      src="{{state.selectedImage.content}}"
+      ng-click="handleImageClick(state.selectedImage)"
+    />
   </section>
 
   <section class="width-20p">
     <h2 class="column-header">What's New</h2>
-    <section
+
+    <img
       class="image-container"
       ng-repeat="image in state.images track by $index"
-    >
-      <img ng-click="handleImageClick(image)" src="{{image.content}}" />
-    </section>
+      ng-click="handleImageClick(image)"
+      src="{{image.content}}"
+    />
   </section>
 </main>
 

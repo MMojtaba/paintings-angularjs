@@ -1,6 +1,5 @@
-
 <style>
-   .title-input {
+  .title-input {
     /* width: 50%; */
   }
   .description-input {
@@ -12,23 +11,11 @@
     flex-direction: row;
     width: 100%;
   }
-
-  .image-preview {
-    width: 100%;
-    height: auto !important;
-  }
-
-  /* .image-preview > img {
-    height: 100%;
-    width: 100% !important;
-  } */
-
-
 </style>
 <main class="mx-11">
   <h1>Admin Page</h1>
 
-  <section class="main-container">  
+  <section class="main-container">
     <section class="width-40p mx-11">
       <form ng-submit="uploadImage()" enctype="multipart/form-data">
         <!-- TODO: make required -->
@@ -37,7 +24,8 @@
           <input
             type="text"
             class="form-control title-input"
-            ng-model="state.title" />
+            ng-model="state.title"
+          />
         </section>
 
         <section class="form-group">
@@ -45,23 +33,30 @@
           <input
             type="textarea"
             class="form-control description-input"
-            ng-model="state.descr" />
+            ng-model="state.descr"
+          />
         </section>
 
-        <section class="form-group">
-          <label>Category</label>
-          <select>
-            <option>General</option>
-          </select>
-        </section>
+        <section style="display: flex; flex-direction: row">
+          <section class="form-group mr-22">
+            <label>Category</label>
+            <section>
+              <select>
+                <option>General</option>
+              </select>
+            </section>
+          </section>
 
-        <section class="form-group">
-          <label>Featured?</label>
-        <select  ng-model="state.isFeatured">
-          <option ng-value="true">Yes</option>
-          <option ng-value="false">No</option>
-        </select>
-      </section>
+          <section class="form-group">
+            <label>Featured?</label>
+            <section>
+              <select ng-model="state.isFeatured">
+                <option ng-value="true">Yes</option>
+                <option ng-value="false">No</option>
+              </select>
+            </section>
+          </section>
+        </section>
 
         <section class="form-group">
           <label>Upload Image</label>
@@ -69,19 +64,15 @@
         </section>
 
         <button type="submit" class="btn btn-success">Upload</button>
-
-        <!-- <section class="form-group" ng-if="state.image">
-        </section> -->
       </form>
     </section>
-     
+
     <section class="width-55p mx-11">
-      
-    <section class="image-container image-preview" ng-if="state.imagePreview" >
-      <img src="{{state.imagePreview}}" />
+      <img
+        class="image-container"
+        ng-if="state.imagePreview"
+        src="{{state.imagePreview}}"
+      />
     </section>
   </section>
-
-  </section>
-
 </main>
