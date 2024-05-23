@@ -31,7 +31,7 @@ angular.module("PaintingsApp").factory("ImageService", [
       formData.append("title", title);
       formData.append("descr", descr);
       formData.append("category", category);
-      formData.append("isFeatured", category);
+      formData.append("isFeatured", isFeatured);
 
       return ImageResource.upload(formData).$promise;
     };

@@ -12,17 +12,25 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
     };
 
     async function init() {
-      try {
-        $scope.state.images = await ImageService.getAll();
-        $scope.state.featured = await ImageService.getFeatured();
-        $scope.state.selectedImage = $scope.state.featured?.at(0);
+
+      ImageService.getAll().then(function (res) {
+        $scope.state.images = res;
+        $scope.state.selectedImage = res?.at(0);
         $scope.$apply();
-      } catch (err) {
-        $scope.state.images = [];
-        $scope.state.featured = [];
-        $scope.state.selectedImage = null;
-        console.error("Error getting images.", err);
-      }
+      }).catch(function (err) {
+        if (err.status !== 404)
+          console.error('Error getting featured images.', err);
+      });
+
+      ImageService.getFeatured().then(function (res) {
+        $scope.state.featured = res;
+        $scope.$apply();
+      }).catch(function (err) {
+        if (err.status !== 404)
+          console.error('Error getting featured images.', err);
+
+      })
+
     }
     init();
 

@@ -22,5 +22,7 @@
   </form>
 
   <!-- Results section -->
-  <section></section>
+  <section>
+    <img ng-repeat="image in state.images" src="{{image.content}}" />
+  </section>
 </main>

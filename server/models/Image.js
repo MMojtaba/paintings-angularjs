@@ -13,7 +13,7 @@ const imageSchema = new mongoose.Schema(
     title: { type: String, required: true },
     descr: { type: String },
     category: { type: String, default: "NA" },
-    featured: { type: Boolean, default: false }
+    isFeatured: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

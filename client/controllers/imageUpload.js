@@ -7,7 +7,7 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
       title: "",
       descr: "",
       category: "",
-      isFeatured: false
+      isFeatured: false,
     };
 
     function init() {
@@ -75,5 +75,5 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
         console.error("Error uploading image.", err);
       }
     };
-  }
+  },
 ]);

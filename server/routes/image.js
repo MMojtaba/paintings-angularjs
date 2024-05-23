@@ -15,7 +15,7 @@ let bucket;
 dbConnection.once("open", () => {
   console.log("Connected to database for GridFS");
   bucket = new mongoose.mongo.GridFSBucket(dbConnection.db, {
-    bucketName: "images"
+    bucketName: "images",
   });
 });
 
@@ -53,8 +53,8 @@ router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
     const parsedQuery = {};
-    if (Object.hasOwn(req.query, "featured"))
-      parsedQuery.featured = req.query.featured;
+    if (Object.hasOwn(req.query, "isFeatured"))
+      parsedQuery.isFeatured = req.query.isFeatured;
 
     console.log("query is", parsedQuery);
 
@@ -97,7 +97,7 @@ router.post("/images", upload.single("file"), function (req, res) {
     return res.status(400).send("No file provided.");
   }
 
-  const { title, descr, category, featured } = req.body;
+  const { title, descr, category, isFeatured } = req.body;
 
   const uploadStream = bucket.openUploadStream(req.file.originalname);
   uploadStream.write(req.file.buffer);
@@ -111,7 +111,7 @@ router.post("/images", upload.single("file"), function (req, res) {
         title,
         descr,
         category,
-        featured
+        isFeatured,
       };
 
       const newImage = new ImageModel(imageObjData);

@@ -71,8 +71,36 @@ body {
   margin-bottom: 1rem;
 }
 
-.width-70 {
+.width-20p {
+  width: 20% !important;
+}
+
+.width-33p {
+  width: 33% !important;
+}
+
+.width-40p {
+  width: 40% !important;
+}
+
+.width-45p {
+  width: 45% !important;
+}
+
+.width-50p {
+  width: 50% !important;
+}
+
+.width-55p {
+  width: 55% !important;
+}
+
+.width-60p {
   width: 60% !important;
+}
+
+.width-100p {
+  width: 100% !important;
 }
 
 .height-auto {
