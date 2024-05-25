@@ -3,7 +3,7 @@
 // TODO: change password
 // TODO: font
 // TODO: search page
-// TODO:
+// TODO: make image preview not go beyond the screen height (make image smaller in that case)
 const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

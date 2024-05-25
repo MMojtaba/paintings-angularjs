@@ -1,23 +1,53 @@
 <style>
   .admin-nav-container {
-    background-color: rgb(49, 57, 170);
     background-image: linear-gradient(
       to right,
       rgb(54, 58, 119),
       rgb(49, 57, 170),
-      rgb(49, 57, 170)
+      rgb(102, 109, 200)
     );
-
-    height: 3rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+    font-family: var(--main-font);
+    font-size: 2rem;
   }
 
   .admin-nav-container > * {
+    color: white;
+    padding: 1rem;
+    margin: 0;
+    /* background-color: rgb(74, 85, 161); */
+    background-color: rgb(48, 55, 106);
+    transition: background-color 0.3s, color 0.3s;
+    width: 50%;
+  }
+
+  .admin-nav-container > *:hover {
+    background-color: rgb(85, 100, 195);
+  }
+  .admin-nav-selected {
+    background-color: rgb(106, 124, 245);
+    border: 3px solid rgb(97, 168, 255);
   }
 </style>
 
 <nav class="admin-nav-container">
-  <span class="mx-10" ui-sref="Admin.ImageUpload"> Upload Image </span>
-  <span class="mx-10" ui-sref="Admin.Register"> Register </span>
+  <span
+    class="mx-10"
+    ui-sref="Admin.ImageUpload"
+    ng-class="{'admin-nav-selected': state.currState === 'Admin.ImageUpload'}">
+    Upload Image
+  </span>
+  <span
+    class="mx-10"
+    ui-sref="Admin.Register"
+    ng-class="{'admin-nav-selected': state.currState === 'Admin.Register'}">
+    Register
+  </span>
 </nav>
 
 <ui-view></ui-view>
