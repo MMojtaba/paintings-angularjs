@@ -6,18 +6,27 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
   function ($scope, $stateParams, ImageService, AuthService) {
     $scope.state = {
       image: null,
-      editMode: true, //false
+      editMode: true, //TODO: false
       isAdmin: false,
+      // Image info
+      title: "",
+      category: "",
+      isFeatued: false,
+      descr: "",
     };
 
     $scope.CONST = {
-      CATEGORIES: ImageService.CATEGORIES,
       CATEGORY_LIST: ImageService.CATEGORY_LIST,
     };
 
     async function init() {
       const imageId = $stateParams.id;
-      $scope.state.image = await ImageService.getOne(imageId);
+      const image = await ImageService.getOne(imageId);
+      $scope.state.image = image;
+      $scope.state.title = image.title;
+      $scope.state.descr = image.descr;
+      $scope.state.category = image.category;
+      $scope.state.isFeatured = image.isFeatured;
 
       $scope.state.isAdmin = AuthService.isAdmin();
 
@@ -33,8 +42,20 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
       //TODO:
     };
 
-    $scope.handleSaveClick = function () {
+    $scope.handleSaveClick = async function () {
       //TODO:
+      $scope.state.image.title = $scope.state.title;
+      $scope.state.image.descr = $scope.state.descr;
+      $scope.state.image.category = $scope.state.category;
+      $scope.state.image.isFeatured = $scope.state.isFeatured;
+      try {
+        const im = await ImageService.update($scope.state.image);
+        console.log("im is", im);
+        // alert("Successfully saved image!");
+      } catch (err) {
+        console.error("Error saving changes.", err);
+        alert("Error saving changes.");
+      }
     };
   },
 ]);

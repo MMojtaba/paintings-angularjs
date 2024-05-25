@@ -38,7 +38,7 @@ async function getImages(imageInfos) {
       // Use cache if available
       if (imageCache[info.fileId]) return imageCache[info.fileId];
       // Clear cache if too large
-      else if (Object.keys(imageCache).length > 100) imageCache = {};
+      else if (Object.keys(imageCache).length > 50) imageCache = {};
 
       const chunks = [];
       const stream = bucket.openDownloadStream(info.fileId);
@@ -74,6 +74,7 @@ router.get("/images", async function (req, res) {
     }
 
     const images = await getImages(imageInfos);
+    // res.set("Cache-Control", "public, max-age=3600");
 
     return res.status(200).send(images);
   } catch (err) {
@@ -92,10 +93,40 @@ router.get("/images/:id", async function (req, res) {
 
     const images = await getImages([imageInfo]);
 
+    console.log("about to return", images[0]?.descr);
+
     return res.status(200).send(images?.at(0));
   } catch (err) {
     console.error("Error getting image", err);
     return res.status(500).send("Error getting image.");
+  }
+});
+
+router.put("/images", async function (req, res) {
+  console.log("here", req.body);
+  const { fileId, title, descr, category, isFeatured } = req.body;
+  if (!fileId)
+    return res.status(400).send({ message: "fileId field is required." });
+  console.log("body is", req.body);
+  try {
+    const image = await ImageModel.findOneAndUpdate(
+      { fileId },
+      {
+        $set: {
+          title,
+          descr,
+          category,
+          isFeatured,
+        },
+      },
+      { new: true }
+    );
+    console.log("updated image");
+
+    return res.status(200).send(image);
+  } catch (err) {
+    console.error("Error updating image.", err);
+    return res.status(500).send({ message: "Error updating image." });
   }
 });
 
@@ -128,7 +159,7 @@ router.post("/images", upload.single("file"), function (req, res) {
       await newImage.save();
       console.log("Saved image.");
 
-      res.status(200).send("File uploaded successfully.");
+      res.status(200).send({ imageFileId: imageObjData.fileId });
     } catch (err) {
       console.error("Error saving file.", err);
       return res.status(500).send("Error saving file.");

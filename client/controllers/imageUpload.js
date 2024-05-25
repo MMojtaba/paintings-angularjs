@@ -1,13 +1,18 @@
 angular.module("PaintingsApp").controller("ImageUploadCtrl", [
   "$scope",
+  "$state",
   "ImageService",
-  function ($scope, ImageService) {
+  function ($scope, $state, ImageService) {
     $scope.state = {
       image: null,
       title: "",
       descr: "",
-      category: "",
+      category: ImageService.CATEGORY_LIST[0],
       isFeatured: false,
+    };
+
+    $scope.CONST = {
+      CATEGORY_LIST: ImageService.CATEGORY_LIST,
     };
 
     function init() {
@@ -63,13 +68,17 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
       }
 
       try {
-        await ImageService.upload(
+        console.log("catego", $scope.state.category);
+        const res = await ImageService.upload(
           $scope.state.image,
           $scope.state.title,
           $scope.state.descr,
           $scope.state.category,
           $scope.state.isFeatured
         );
+        alert("Image uploaded!");
+        $state.go($state.current.name, {}, { reload: true });
+        // $state.go("ImagePreview", { id: res.imageFileId });
       } catch (err) {
         alert("Error uploading image");
         console.error("Error uploading image.", err);

@@ -4,6 +4,8 @@
 // TODO: font
 // TODO: search page
 // TODO: make image preview not go beyond the screen height (make image smaller in that case)
+// Display empty thing when loading images
+// Indicate image was uploaded to user
 const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

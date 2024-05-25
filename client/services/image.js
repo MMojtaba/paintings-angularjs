@@ -7,6 +7,7 @@ angular.module("PaintingsApp").factory("ImageService", [
       {
         getAll: { method: "GET", isArray: true },
         getOne: { method: "GET", url: "/api/images/:id" },
+        update: { method: "PUT", url: "/api/images" },
         upload: {
           method: "POST",
           transformRequest: angular.identity,
@@ -55,6 +56,14 @@ angular.module("PaintingsApp").factory("ImageService", [
       }
 
       return image;
+    };
+
+    // Update an image (title, descr, etc. not the picture itself)
+    this.update = async function (image) {
+      const imageMeta = angular.copy(image);
+      delete imageMeta.content;
+      console.log("image meta is", imageMeta);
+      return await ImageResource.update(imageMeta);
     };
 
     this.CATEGORIES = {

@@ -1,9 +1,5 @@
 <style>
-  .title-input {
-    /* width: 50%; */
-  }
   .description-input {
-    /* width: 50%; */
     height: 10rem;
   }
   .main-container {
@@ -24,25 +20,27 @@
           <input
             type="text"
             class="form-control title-input"
-            ng-model="state.title"
-          />
+            ng-model="state.title" />
         </section>
 
         <section class="form-group">
           <label>Description</label>
-          <input
+          <textarea
             type="textarea"
             class="form-control description-input"
-            ng-model="state.descr"
-          />
+            ng-model="state.descr"></textarea>
         </section>
 
         <section style="display: flex; flex-direction: row">
           <section class="form-group mr-22">
             <label>Category</label>
             <section>
-              <select>
-                <option>General</option>
+              <select ng-model="state.category">
+                <option
+                  ng-repeat="category in CONST.CATEGORY_LIST"
+                  ng-value="category">
+                  {{category}}
+                </option>
               </select>
             </section>
           </section>
@@ -71,8 +69,7 @@
       <img
         class="contained-image"
         ng-if="state.imagePreview"
-        src="{{state.imagePreview}}"
-      />
+        src="{{state.imagePreview}}" />
     </section>
   </section>
 </main>

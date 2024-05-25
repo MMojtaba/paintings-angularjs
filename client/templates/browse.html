@@ -6,7 +6,7 @@
   }
 </style>
 
-<main>
+<main class="m-10">
   <!-- Filter section -->
   <form ng-submit="search()">
     <span>
@@ -35,8 +35,7 @@
       class="w-33 mx-10 my-10"
       ng-repeat="image in state.images"
       ng-click="handleImageClick(image)"
-      data-tooltip="fdsfkldsj"
-    >
+      data-tooltip="fdsfkldsj">
       <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
       <img class="contained-image" src="{{image.content}}" />
     </section>
