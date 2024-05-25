@@ -1,10 +1,23 @@
-<nav>
-  <button class="btn btn-primary mx-10" ui-sref="Admin.ImageUpload">
-    Upload Image
-  </button>
-  <button class="btn btn-primary mx-10" ui-sref="Admin.Register">
-    Register
-  </button>
+<style>
+  .admin-nav-container {
+    background-color: rgb(49, 57, 170);
+    background-image: linear-gradient(
+      to right,
+      rgb(54, 58, 119),
+      rgb(49, 57, 170),
+      rgb(49, 57, 170)
+    );
+
+    height: 3rem;
+  }
+
+  .admin-nav-container > * {
+  }
+</style>
+
+<nav class="admin-nav-container">
+  <span class="mx-10" ui-sref="Admin.ImageUpload"> Upload Image </span>
+  <span class="mx-10" ui-sref="Admin.Register"> Register </span>
 </nav>
 
 <ui-view></ui-view>

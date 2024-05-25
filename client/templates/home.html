@@ -18,6 +18,10 @@
     text-align: center;
     font-family: var(--main-font);
   }
+
+  .animate-change {
+    /* transition: 1s; */
+  }
 </style>
 
 <main class="main-container">
@@ -34,7 +38,7 @@
   <section class="width-60p">
     <h2 class="column-header bg-grey">{{state.selectedImage.title}}</h2>
     <img
-      class="contained-image"
+      class="contained-image animate-change"
       src="{{state.selectedImage.content}}"
       ng-click="handleImageClick(state.selectedImage)"
     />

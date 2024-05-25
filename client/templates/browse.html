@@ -37,7 +37,7 @@
       ng-click="handleImageClick(image)"
       data-tooltip="fdsfkldsj"
     >
-      <label>{{image.title}}</label>
+      <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
       <img class="contained-image" src="{{image.content}}" />
     </section>
   </section>
