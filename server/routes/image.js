@@ -8,6 +8,9 @@ const ImageModel = require("../models/Image.js");
 
 const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
 
+// For caching images
+const imageCache = {};
+
 const dbConnection = mongoose.createConnection(dbPath);
 
 // Initialize GridFSBucket
@@ -30,9 +33,13 @@ function parseImageBeforeSend(image, buffer) {
 
 // Gets images from gridfs based on the given ImageModel objects provided
 async function getImages(imageInfos) {
-  // TODO: add caching
   const images = await Promise.all(
     imageInfos.map(async (info) => {
+      // Use cache if available
+      if (imageCache[info.fileId]) return imageCache[info.fileId];
+      // Clear cache if too large
+      else if (Object.keys(imageCache).length > 100) imageCache = {};
+
       const chunks = [];
       const stream = bucket.openDownloadStream(info.fileId);
       const buffer = await new Promise((resolve, reject) => {
@@ -41,7 +48,11 @@ async function getImages(imageInfos) {
         stream.on("error", reject);
       });
 
-      return parseImageBeforeSend(info, buffer);
+      const parsed = parseImageBeforeSend(info, buffer);
+
+      // Cache image
+      imageCache[info.fileId] = parsed;
+      return parsed;
     })
   );
 
@@ -55,8 +66,6 @@ router.get("/images", async function (req, res) {
     const parsedQuery = {};
     if (Object.hasOwn(req.query, "isFeatured"))
       parsedQuery.isFeatured = req.query.isFeatured;
-
-    // console.log("query is", parsedQuery);
 
     const imageInfos = await ImageModel.find(parsedQuery).limit(limit);
 
