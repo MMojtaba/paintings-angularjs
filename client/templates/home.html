@@ -25,7 +25,7 @@
     <h2 class="column-header">Featured</h2>
     <img
       ng-repeat="image in state.featured track by $index"
-      class="image-container"
+      class="contained-image"
       ng-click="handleImageClick(image)"
       src="{{image.content}}"
     />
@@ -34,7 +34,7 @@
   <section class="width-60p">
     <h2 class="column-header bg-grey">{{state.selectedImage.title}}</h2>
     <img
-      class="image-container"
+      class="contained-image"
       src="{{state.selectedImage.content}}"
       ng-click="handleImageClick(state.selectedImage)"
     />
@@ -44,7 +44,7 @@
     <h2 class="column-header">What's New</h2>
 
     <img
-      class="image-container"
+      class="contained-image"
       ng-repeat="image in state.images track by $index"
       ng-click="handleImageClick(image)"
       src="{{image.content}}"

@@ -11,9 +11,9 @@ angular.module("PaintingsApp").factory("ImageService", [
           method: "POST",
           transformRequest: angular.identity,
           headers: {
-            "Content-Type": undefined
-          }
-        }
+            "Content-Type": undefined,
+          },
+        },
       }
     );
 
@@ -43,7 +43,7 @@ angular.module("PaintingsApp").factory("ImageService", [
 
     // Get featured paintings
     this.getFeatured = async function () {
-      return genericGetAll({ featured: true });
+      return genericGetAll({ isFeatured: true });
     };
 
     // Get a painting by its fileId
@@ -57,6 +57,16 @@ angular.module("PaintingsApp").factory("ImageService", [
       return image;
     };
 
+    this.CATEGORIES = {
+      OTHER: "Other",
+      LANDSCAPE: "Landscape",
+      SEA: "Sea",
+      SKY: "Sky",
+      JUNGLE: "Jungle",
+    };
+
+    this.CATEGORY_LIST = Object.values(this.CATEGORIES);
+
     return this;
-  }
+  },
 ]);

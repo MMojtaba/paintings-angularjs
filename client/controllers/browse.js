@@ -1,7 +1,8 @@
 angular.module("PaintingsApp").controller("BrowseCtrl", [
   "$scope",
+  "$state",
   "ImageService",
-  function ($scope, ImageService) {
+  function ($scope, $state, ImageService) {
     $scope.state = {
       images: [],
       notFound: false,
@@ -21,5 +22,10 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       }
     }
     init();
+
+    // TODO: handleImageClick in a utils file?
+    $scope.handleImageClick = function (image) {
+      $state.go("ImagePreview", { id: image.fileId });
+    };
   },
 ]);

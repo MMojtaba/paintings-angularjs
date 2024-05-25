@@ -1,2 +1,67 @@
-<h1>Image preview!</h1>
-<img src="{{state.image.content}}" />
+<style>
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 1rem;
+  }
+</style>
+
+<main class="main-container">
+  <h1 class="align-self-c">
+    <!-- Image title -->
+    <span ng-if="!state.editMode"
+      >{{state.image.title}}<span ng-if="state.image.isFeatured">*</span></span
+    >
+    <!-- Editable Image title and isFeatured -->
+    <span ng-if="state.editMode">
+      <input type="text" class="text-center" ng-model="state.image.title" />
+    </span>
+  </h1>
+
+  <img
+    class="contained-image width-90p align-self-c"
+    src="{{state.image.content}}"
+  />
+  <section class="mx-5p">
+    <div ng-if="state.editMode">
+      <label>Featured?</label>
+      <input type="checkbox" ng-model="state.image.isFeatured" />
+    </div>
+    <!-- Category -->
+    <div>
+      <label>Category:</label>
+
+      <span ng-if="!state.editMode"> {{state.image.category}}</span>
+      <!-- <span
+        ng-if="state.editMode"
+        ng-include="'./client/templates/partials/category-select.html'"
+      ></span> -->
+      <span ng-if="state.editMode">
+        <select>
+          <option ng-repeat="category in CONST.CATEGORY_LIST">
+            {{category}}
+          </option>
+        </select>
+      </span>
+    </div>
+  </section>
+  <section class="mx-5p">
+    <h3 class="mt-0">Description</h3>
+    <p>{{state.image.descr}}</p>
+  </section>
+
+  <!-- Admin buttons -->
+  <section class="flex flex-row gap1 mx-5p" ng-if="state.isAdmin">
+    <button class="btn btn-danger">Delete</button>
+
+    <button
+      class="btn btn-primary"
+      ng-class="{'btn-warning': state.editMode}"
+      ng-click="handleEditClick()"
+    >
+      {{state.editMode ? 'Cancel' : 'Edit'}}
+    </button>
+    <button class="btn btn-success" ng-if="state.editMode">Save</button>
+  </section>
+</main>

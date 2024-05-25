@@ -1,3 +1,11 @@
+<style>
+  .image-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+</style>
+
 <main>
   <!-- Filter section -->
   <form ng-submit="search()">
@@ -22,7 +30,15 @@
   </form>
 
   <!-- Results section -->
-  <section>
-    <img ng-repeat="image in state.images" src="{{image.content}}" />
+  <section class="image-list">
+    <section
+      class="w-33 mx-10 my-10"
+      ng-repeat="image in state.images"
+      ng-click="handleImageClick(image)"
+      data-tooltip="fdsfkldsj"
+    >
+      <label>{{image.title}}</label>
+      <img class="contained-image" src="{{image.content}}" />
+    </section>
   </section>
 </main>

@@ -35,10 +35,18 @@
   <img class="nav-logo" src="./assets/logo.png" />
   <button class="btn btn-primary nav-button" ui-sref="Home">Home</button>
   <button class="btn btn-primary nav-button" ui-sref="Browse">Browse</button>
-  <button class="btn btn-primary nav-button" ui-sref="Admin.ImageUpload">
+  <button
+    class="btn btn-primary nav-button"
+    ng-if="state.isAdmin"
+    ui-sref="Admin.ImageUpload"
+  >
     Admin
   </button>
-  <button class="btn btn-danger nav-button bg-red" ng-click="logout()">
+  <button
+    class="btn btn-danger nav-button bg-red"
+    ng-if="state.isAdmin"
+    ng-click="logout()"
+  >
     Logout
   </button>
 </nav>

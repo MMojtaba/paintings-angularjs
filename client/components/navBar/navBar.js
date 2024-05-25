@@ -1,13 +1,25 @@
 angular.module("PaintingsApp").directive("navBar", [
   "$state",
+  "$rootScope",
   "AuthService",
-  function (AuthService, $state) {
+  function ($state, $rootScope, AuthService) {
     return {
       restrict: "E",
       scope: {},
       templateUrl: "components/navBar/nav-bar.html",
       link: function (scope) {
-        console.log("in directive");
+        scope.state = {
+          isAdmin: false,
+        };
+
+        async function init() {
+          // TODO: request to backend to get user
+          $rootScope.user = {
+            username: "test",
+          };
+          scope.state.isAdmin = true;
+        }
+        init();
 
         scope.logout = async function () {
           try {
@@ -17,8 +29,8 @@ angular.module("PaintingsApp").directive("navBar", [
             console.error("Erro logging out", err);
           }
         };
-      }
+      },
       // template: "directive template thing"
     };
-  }
+  },
 ]);

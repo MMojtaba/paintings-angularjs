@@ -56,7 +56,7 @@ router.get("/images", async function (req, res) {
     if (Object.hasOwn(req.query, "isFeatured"))
       parsedQuery.isFeatured = req.query.isFeatured;
 
-    console.log("query is", parsedQuery);
+    // console.log("query is", parsedQuery);
 
     const imageInfos = await ImageModel.find(parsedQuery).limit(limit);
 
