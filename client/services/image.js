@@ -62,7 +62,6 @@ angular.module("PaintingsApp").factory("ImageService", [
     this.update = async function (image) {
       const imageMeta = angular.copy(image);
       delete imageMeta.content;
-      console.log("image meta is", imageMeta);
       return await ImageResource.update(imageMeta);
     };
 

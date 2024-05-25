@@ -49,9 +49,8 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
       $scope.state.image.category = $scope.state.category;
       $scope.state.image.isFeatured = $scope.state.isFeatured;
       try {
-        const im = await ImageService.update($scope.state.image);
-        console.log("im is", im);
-        // alert("Successfully saved image!");
+        await ImageService.update($scope.state.image);
+        alert("Successfully saved image!");
       } catch (err) {
         console.error("Error saving changes.", err);
         alert("Error saving changes.");

@@ -25,34 +25,49 @@ dbConnection.once("open", () => {
 // Puts image in a format that can be used by the frontend
 function parseImageBeforeSend(image, buffer) {
   // TODO: use actual file type instead of png
-  const content = `data:image/png;base64, ${buffer.toString("base64")}`;
   const parsedImage = JSON.parse(JSON.stringify(image));
-  parsedImage.content = content;
+  if (buffer) {
+    const content = `data:image/png;base64, ${buffer.toString("base64")}`;
+    parsedImage.content = content;
+  }
   return parsedImage;
 }
+
+// function updateImageMeta(image, newData) {
+//   image.title = newData.title;
+//   image.descr = newData.descr;
+//   image.isFeatured = newData.isFeatured;
+//   image.category = newData.category;
+//   return image;
+// }
 
 // Gets images from gridfs based on the given ImageModel objects provided
 async function getImages(imageInfos) {
   const images = await Promise.all(
     imageInfos.map(async (info) => {
       // Use cache if available
-      if (imageCache[info.fileId]) return imageCache[info.fileId];
-      // Clear cache if too large
-      else if (Object.keys(imageCache).length > 50) imageCache = {};
+      if (imageCache[info.fileId]) {
+        const parsed = parseImageBeforeSend(info);
+        parsed.content = imageCache[info.fileId];
+        return parsed;
+      } else {
+        // Clear cache if too large
+        if (Object.keys(imageCache).length > 50) imageCache = {};
 
-      const chunks = [];
-      const stream = bucket.openDownloadStream(info.fileId);
-      const buffer = await new Promise((resolve, reject) => {
-        stream.on("data", (chunk) => chunks.push(chunk));
-        stream.on("end", () => resolve(Buffer.concat(chunks)));
-        stream.on("error", reject);
-      });
+        const chunks = [];
+        const stream = bucket.openDownloadStream(info.fileId);
+        const buffer = await new Promise((resolve, reject) => {
+          stream.on("data", (chunk) => chunks.push(chunk));
+          stream.on("end", () => resolve(Buffer.concat(chunks)));
+          stream.on("error", reject);
+        });
 
-      const parsed = parseImageBeforeSend(info, buffer);
+        const parsed = parseImageBeforeSend(info, buffer);
 
-      // Cache image
-      imageCache[info.fileId] = parsed;
-      return parsed;
+        // Cache image
+        imageCache[info.fileId] = parsed.content;
+        return parsed;
+      }
     })
   );
 
@@ -90,7 +105,7 @@ router.get("/images/:id", async function (req, res) {
     const imageInfo = await ImageModel.findOne({ fileId: fileId });
 
     if (!imageInfo) return res.status(404).send("Image not found.");
-
+    console.log("image info is", imageInfo);
     const images = await getImages([imageInfo]);
 
     console.log("about to return", images[0]?.descr);
@@ -109,7 +124,7 @@ router.put("/images", async function (req, res) {
     return res.status(400).send({ message: "fileId field is required." });
   console.log("body is", req.body);
   try {
-    const image = await ImageModel.findOneAndUpdate(
+    await ImageModel.updateOne(
       { fileId },
       {
         $set: {
@@ -118,12 +133,11 @@ router.put("/images", async function (req, res) {
           category,
           isFeatured,
         },
-      },
-      { new: true }
+      }
     );
     console.log("updated image");
 
-    return res.status(200).send(image);
+    return res.status(200).send({ message: "Image updated!" });
   } catch (err) {
     console.error("Error updating image.", err);
     return res.status(500).send({ message: "Error updating image." });
