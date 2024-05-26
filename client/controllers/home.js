@@ -13,7 +13,13 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
     };
 
     async function init() {
-      ImageService.getAll()
+      const query = {
+        limit: 4,
+        sort: {
+          createdAt: -1,
+        },
+      };
+      ImageService.getAll(query)
         .then(function (res) {
           $scope.state.images = res;
           $scope.state.selectedImage = res?.at(0);
@@ -25,7 +31,7 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
             console.error("Error getting featured images.", err);
         });
 
-      ImageService.getFeatured()
+      ImageService.getFeatured(query)
         .then(function (res) {
           $scope.state.featured = res;
           $scope.state.isLoading = false;

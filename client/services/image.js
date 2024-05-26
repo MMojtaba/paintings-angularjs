@@ -43,8 +43,10 @@ angular.module("PaintingsApp").factory("ImageService", [
     };
 
     // Get featured paintings
-    this.getFeatured = async function () {
-      return genericGetAll({ isFeatured: true });
+    this.getFeatured = async function (query) {
+      const query2 = { ...query };
+      query2.isFeatured = true;
+      return genericGetAll(query2);
     };
 
     // Get a painting by its fileId

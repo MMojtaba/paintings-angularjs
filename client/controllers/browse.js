@@ -48,6 +48,9 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
         const query = {};
         query.limit = loadStep;
         query.skip = skip;
+        query.sort = {
+          createdAt: -1,
+        };
         skip += loadStep;
         if ($scope.state.keyword) query.keyword = $scope.state.keyword;
         if ($scope.state.startDate) query.startDate = $scope.state.startDate;

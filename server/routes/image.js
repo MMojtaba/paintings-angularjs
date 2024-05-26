@@ -79,8 +79,10 @@ router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
     const skip = req.query.skip || 0;
+    const sort = JSON.parse(req.query.sort || "{}");
     const { category, keyword, startDate, endDate } = req.query;
     const parsedQuery = { $and: [] };
+    const sortQuery = {};
     if (Object.hasOwn(req.query, "isFeatured"))
       parsedQuery.$and.push({ isFeatured: req.query.isFeatured });
     if (category) parsedQuery.$and.push({ category });
@@ -94,9 +96,12 @@ router.get("/images", async function (req, res) {
       parsedQuery.$and.push({ $or: [{ title: regex }, { descr: regex }] });
     }
 
+    if (sort?.createdAt) sortQuery.createdAt = sort.createdAt;
+
     let finalQuery = {};
     if (parsedQuery.$and.length) finalQuery = parsedQuery;
     const imageInfos = await ImageModel.find(finalQuery)
+      .sort(sortQuery)
       .skip(skip)
       .limit(limit);
 

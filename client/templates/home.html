@@ -30,7 +30,7 @@
     ng-if="state.isLoading"></section>
 
   <section class="width-20p">
-    <h2 class="column-header">Featured</h2>
+    <h2 class="column-header bg-grey">Featured</h2>
     <img
       ng-repeat="image in state.featured track by $index"
       class="contained-image"
@@ -41,7 +41,7 @@
   </section>
 
   <section class="width-60p">
-    <h2 class="column-header bg-grey">{{state.selectedImage.title}}</h2>
+    <h2 class="column-header">{{state.selectedImage.title}}</h2>
     <img
       class="contained-image animate-change"
       src="{{state.selectedImage.content}}"
@@ -51,7 +51,7 @@
   </section>
 
   <section class="width-20p">
-    <h2 class="column-header">What's New</h2>
+    <h2 class="column-header bg-grey">What's New</h2>
 
     <img
       class="contained-image"
