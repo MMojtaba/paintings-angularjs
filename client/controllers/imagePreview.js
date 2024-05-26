@@ -1,9 +1,10 @@
 angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
   "$scope",
+  "$state",
   "$stateParams",
   "ImageService",
   "AuthService",
-  function ($scope, $stateParams, ImageService, AuthService) {
+  function ($scope, $state, $stateParams, ImageService, AuthService) {
     $scope.state = {
       image: null,
       editMode: true, //TODO: false
@@ -43,7 +44,6 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
     };
 
     $scope.handleSaveClick = async function () {
-      //TODO:
       $scope.state.image.title = $scope.state.title;
       $scope.state.image.descr = $scope.state.descr;
       $scope.state.image.category = $scope.state.category;
@@ -54,6 +54,17 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
       } catch (err) {
         console.error("Error saving changes.", err);
         alert("Error saving changes.");
+      }
+    };
+
+    $scope.handleDeleteClick = async function () {
+      try {
+        await ImageService.delete($scope.state.image.fileId);
+        alert("Deleted image!");
+        $state.go("Home");
+      } catch (err) {
+        console.error("Error deleting image.", err);
+        alert("Error deleting image.");
       }
     };
   },

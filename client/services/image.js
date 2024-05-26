@@ -59,10 +59,14 @@ angular.module("PaintingsApp").factory("ImageService", [
     };
 
     // Update an image (title, descr, etc. not the picture itself)
-    this.update = async function (image) {
+    this.update = function (image) {
       const imageMeta = angular.copy(image);
       delete imageMeta.content;
-      return await ImageResource.update(imageMeta);
+      return ImageResource.update(imageMeta);
+    };
+
+    this.delete = async function (fileId) {
+      return ImageResource.delete({ fileId: fileId });
     };
 
     this.CATEGORIES = {

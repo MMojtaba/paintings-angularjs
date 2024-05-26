@@ -144,6 +144,22 @@ router.put("/images", async function (req, res) {
   }
 });
 
+router.delete("/images", async function (req, res) {
+  const fileId = req.query.fileId;
+  if (!fileId)
+    return res
+      .status(400)
+      .send({ message: "Please provide the id of the image to remove." });
+
+  try {
+    await ImageModel.deleteOne({ fileId });
+    return res.status(200).send({ message: "Successfully deleted file." });
+  } catch (err) {
+    console.error("Error deleting image.", err);
+    return res.status(500).send({ message: "Error deleting image." });
+  }
+});
+
 // Upload the image
 router.post("/images", upload.single("file"), function (req, res) {
   if (!req.file) {

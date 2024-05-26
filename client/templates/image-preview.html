@@ -21,7 +21,8 @@
 
   <img
     class="contained-image width-90p align-self-c"
-    src="{{state.image.content}}" />
+    src="{{state.image.content}}"
+  />
   <section class="mx-5p">
     <div ng-if="state.editMode">
       <label>Featured?</label>
@@ -40,7 +41,8 @@
         <select ng-model="state.category">
           <option
             ng-repeat="category in CONST.CATEGORY_LIST"
-            ng-value="category">
+            ng-value="category"
+          >
             {{category}}
           </option>
         </select>
@@ -53,23 +55,28 @@
     <textarea
       class="width-80p"
       ng-if="state.editMode"
-      ng-model="state.descr"></textarea>
+      ng-model="state.descr"
+    ></textarea>
   </section>
 
   <!-- Admin buttons -->
   <section class="flex flex-row gap1 mx-5p" ng-if="state.isAdmin">
-    <button class="btn btn-danger">Delete</button>
+    <button class="btn btn-danger" ng-click="handleDeleteClick()">
+      Delete
+    </button>
 
     <button
       class="btn btn-primary"
       ng-class="{'btn-warning': state.editMode}"
-      ng-click="handleEditClick()">
+      ng-click="handleEditClick()"
+    >
       {{state.editMode ? 'Cancel' : 'Edit'}}
     </button>
     <button
       class="btn btn-success"
       ng-if="state.editMode"
-      ng-click="handleSaveClick()">
+      ng-click="handleSaveClick()"
+    >
       Save
     </button>
   </section>
