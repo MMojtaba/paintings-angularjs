@@ -43,7 +43,8 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
         if ($scope.state.startDate) query.startDate = $scope.state.startDate;
         if ($scope.state.endDate) query.endDate = $scope.state.endDate;
         if ($scope.state.category) query.category = $scope.state.category;
-        if ($scope.state.isFeatured) query.isFeatured = $scope.state.isFeatured;
+        if ($scope.state.isFeatured !== undefined)
+          query.isFeatured = $scope.state.isFeatured;
         $scope.state.images = await ImageService.getAll(query);
         $scope.$apply();
       } catch (err) {
