@@ -10,6 +10,7 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       featured: [],
       images: [],
       isLoading: true,
+      isFeaturedLoading: true,
     };
 
     let currImageIndex = 1;
@@ -24,11 +25,13 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       ImageService.getAll(query)
         .then(function (res) {
           $scope.state.images = res;
-          $scope.state.selectedImage = res?.at(0);
+          if (!$scope.state.selectedImage)
+            $scope.state.selectedImage = res?.at(0);
           $scope.state.isLoading = false;
           $scope.$apply();
         })
         .catch(function (err) {
+          $scope.state.isLoading = false;
           if (err.status !== 404)
             console.error("Error getting featured images.", err);
         });
@@ -36,10 +39,13 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       ImageService.getFeatured(query)
         .then(function (res) {
           $scope.state.featured = res;
-          $scope.state.isLoading = false;
+          if (!$scope.state.selectedImage)
+            $scope.state.selectedImage = res?.at(0);
+          $scope.state.isFeaturedLoading = false;
           $scope.$apply();
         })
         .catch(function (err) {
+          $scope.state.isFeaturedLoading = false;
           if (err.status !== 404)
             console.error("Error getting featured images.", err);
         });
