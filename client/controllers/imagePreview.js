@@ -45,10 +45,6 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
       $scope.state.editMode = !$scope.state.editMode;
     };
 
-    $scope.handleDeleteClick = function () {
-      //TODO:
-    };
-
     $scope.handleSaveClick = async function () {
       $scope.state.image.title = $scope.state.title;
       $scope.state.image.descr = $scope.state.descr;
@@ -64,6 +60,7 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
     };
 
     $scope.handleDeleteClick = async function () {
+      if (!confirm("Are you sure you want to delete this image?")) return;
       try {
         await ImageService.delete($scope.state.image.fileId);
         alert("Deleted image!");

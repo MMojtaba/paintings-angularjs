@@ -65,8 +65,8 @@ angular.module("PaintingsApp").factory("ImageService", [
       return ImageResource.update(imageMeta);
     };
 
-    this.delete = async function (fileId) {
-      return ImageResource.delete({ fileId: fileId });
+    this.delete = function (fileId) {
+      return ImageResource.delete({ fileId: fileId }).$promise;
     };
 
     this.CATEGORIES = {

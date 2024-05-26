@@ -23,7 +23,7 @@
 
 <main>
   <!-- Filter section -->
-  <form ng-submit="handleSubmit()" class="search-form">
+  <section class="search-form">
     <span>
       <label>Keyword</label>
       <input
@@ -61,12 +61,10 @@
       </select>
     </span>
 
-    <button type="submit" class="btn btn-warning" ng-click="clearFilters()">
-      Clear
-    </button>
+    <button class="btn btn-warning" ng-click="clearFilters()">Clear</button>
 
-    <button type="submit" class="btn btn-success">Submit</button>
-  </form>
+    <button class="btn btn-success" ng-click="handleSubmit()">Submit</button>
+  </section>
 
   <!-- Results section -->
   <section class="image-list">
@@ -78,5 +76,10 @@
       <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
       <img class="contained-image" src="{{image.content}}" />
     </section>
+  </section>
+
+  <!-- No images found message -->
+  <section ng-if="!state.images.length" class="error-box">
+    <span>No images found!</span>
   </section>
 </main>

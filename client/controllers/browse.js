@@ -5,7 +5,6 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
   function ($scope, $state, ImageService) {
     $scope.state = {
       images: [],
-      notFound: false,
       keyword: "",
       startDate: null,
       endDate: null,
@@ -33,30 +32,29 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       $scope.state.endDate = null;
       $scope.state.category = undefined;
       $scope.state.isFeatured = undefined;
+      getImages();
     };
 
     async function getImages() {
       try {
         const query = {};
-        query.limit = 50; //TODO:
+        query.limit = 10;
         if ($scope.state.keyword) query.keyword = $scope.state.keyword;
         if ($scope.state.startDate) query.startDate = $scope.state.startDate;
         if ($scope.state.endDate) query.endDate = $scope.state.endDate;
         if ($scope.state.category) query.category = $scope.state.category;
         if ($scope.state.isFeatured) query.isFeatured = $scope.state.isFeatured;
-        console.log("query is", query);
         $scope.state.images = await ImageService.getAll(query);
         $scope.$apply();
       } catch (err) {
         $scope.state.images = [];
+        $scope.$apply();
         if (err.status === 404) {
           console.warn("No images found for the given filter.");
           alert("No images found.");
-          $scope.state.notFound = true;
         } else {
           console.error("Error getting images", err);
           alert("Error getting images.");
-          $scope.state.notFound = false;
         }
       }
     }
