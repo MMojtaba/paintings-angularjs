@@ -78,6 +78,7 @@ async function getImages(imageInfos) {
 router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
+    const skip = req.query.skip || 0;
     const { category, keyword, startDate, endDate } = req.query;
     const parsedQuery = { $and: [] };
     if (Object.hasOwn(req.query, "isFeatured"))
@@ -95,7 +96,9 @@ router.get("/images", async function (req, res) {
 
     let finalQuery = {};
     if (parsedQuery.$and.length) finalQuery = parsedQuery;
-    const imageInfos = await ImageModel.find(finalQuery).limit(limit);
+    const imageInfos = await ImageModel.find(finalQuery)
+      .skip(skip)
+      .limit(limit);
 
     if (imageInfos.length === 0) {
       return res.status(404).send("No image found");

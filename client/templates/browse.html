@@ -28,7 +28,7 @@
     ng-include="'templates/loading.html'"
     ng-if="state.isLoading"></section>
   <!-- Filter section -->
-  <section class="search-form">
+  <section class="search-form overlay-high">
     <span>
       <label>Keyword</label>
       <input
@@ -91,5 +91,13 @@
   <!-- No images found message -->
   <section ng-if="state.notFound" class="error-box">
     <span>No images found!</span>
+  </section>
+
+  <section class="text-center">
+    <button
+      class="btn btn-primary m-10 main-font text-medium width-90p"
+      ng-click="handleLoadMore()">
+      Load more
+    </button>
   </section>
 </main>

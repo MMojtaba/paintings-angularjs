@@ -14,6 +14,10 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       isLoading: true,
     };
 
+    const loadStep = 12; //how many images to load in each step
+    let skip = 0; // how many images to skip (are already loaded)
+    let firstLoad = true; // Initial loading (no images are loaded)
+
     $scope.CONST = {
       CATEGORY_LIST: ImageService.CATEGORY_LIST,
     };
@@ -34,30 +38,34 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       $scope.state.endDate = null;
       $scope.state.category = undefined;
       $scope.state.isFeatured = undefined;
+      firstLoad = true;
       getImages();
     };
 
     async function getImages() {
-      $scope.state.isLoading = true;
+      if (firstLoad) $scope.state.isLoading = true;
       try {
         const query = {};
-        query.limit = 10;
+        query.limit = loadStep;
+        query.skip = skip;
+        skip += loadStep;
         if ($scope.state.keyword) query.keyword = $scope.state.keyword;
         if ($scope.state.startDate) query.startDate = $scope.state.startDate;
         if ($scope.state.endDate) query.endDate = $scope.state.endDate;
         if ($scope.state.category) query.category = $scope.state.category;
         if ($scope.state.isFeatured !== undefined)
           query.isFeatured = $scope.state.isFeatured;
-        $scope.state.images = await ImageService.getAll(query);
+        const images = await ImageService.getAll(query);
+        console.log("got ne images", skip, images);
+        $scope.state.images.push(...images);
         $scope.state.notFound = false;
         $scope.state.isLoading = false;
-
+        firstLoad = false;
         $scope.$apply();
       } catch (err) {
         $scope.state.isLoading = false;
-
-        $scope.state.images = [];
-        if (err.status === 404) {
+        // If no images found on first load, show not found error
+        if (err.status === 404 && firstLoad) {
           console.warn("No images found for the given filter.");
           $scope.state.notFound = true;
           alert("No images found.");
@@ -70,6 +78,12 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
     }
 
     $scope.handleSubmit = function () {
+      firstLoad = true;
+      getImages();
+    };
+
+    $scope.handleLoadMore = function () {
+      firstLoad = false;
       getImages();
     };
   },

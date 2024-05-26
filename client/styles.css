@@ -250,3 +250,8 @@ body {
 .large-font {
   font-size: 3rem;
 }
+
+.overlay-high {
+  position: relative;
+  z-index: 1000;
+}
