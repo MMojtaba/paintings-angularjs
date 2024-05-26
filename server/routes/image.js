@@ -78,11 +78,24 @@ async function getImages(imageInfos) {
 router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
-    const parsedQuery = {};
+    const { category, keyword, startDate, endDate } = req.query;
+    const parsedQuery = { $and: [] };
     if (Object.hasOwn(req.query, "isFeatured"))
-      parsedQuery.isFeatured = req.query.isFeatured;
+      parsedQuery.$and.push({ isFeatured: req.query.isFeatured });
+    if (category) parsedQuery.$and.push({ category });
 
-    const imageInfos = await ImageModel.find(parsedQuery).limit(limit);
+    if (startDate) parsedQuery.$and.push({ createdAt: { $gte: startDate } });
+    if (endDate) parsedQuery.$and.push({ createdAt: { $lte: endDate } });
+
+    // Search for keyword in title and description
+    if (keyword) {
+      const regex = new RegExp(keyword, "i");
+      parsedQuery.$and.push({ $or: [{ title: regex }, { descr: regex }] });
+    }
+
+    let finalQuery = {};
+    if (parsedQuery.$and.length) finalQuery = parsedQuery;
+    const imageInfos = await ImageModel.find(finalQuery).limit(limit);
 
     if (imageInfos.length === 0) {
       return res.status(404).send("No image found");

@@ -6,29 +6,64 @@
   }
 
   .search-form {
-    background-color: rgb(53, 53, 103);
+    background-image: linear-gradient(
+      to right,
+      rgb(123, 120, 221),
+      rgb(96, 127, 208),
+      rgb(138, 178, 237)
+    );
+    height: 100%;
+    padding: 1rem;
+    border: 2px solid rgb(0, 0, 0);
+    display: flex;
+    gap: 2rem;
+    align-items: center;
   }
 </style>
 
-<main class="m-10">
+<main>
   <!-- Filter section -->
-  <form ng-submit="search()" class="search-form">
+  <form ng-submit="handleSubmit()" class="search-form">
     <span>
       <label>Keyword</label>
-      <input type="text" placeholder="Search by keyword..." />
+      <input
+        type="text"
+        ng-model="state.keyword"
+        placeholder="Search by keyword..." />
     </span>
 
     <span>
       <label>From</label>
-      <input ng-value="state.startDate" type="date" />
+      <input ng-model="state.startDate" type="date" />
+    </span>
+
+    <span>
+      <label>To</label>
+      <input ng-model="state.endDate" type="date" />
     </span>
 
     <span>
       <label>Category</label>
-      <select value="One">
-        <option>One</option>
+      <select ng-model="state.category">
+        <option ng-value="undefined">Any</option>
+        <option ng-repeat="category in CONST.CATEGORY_LIST" ng-value="category">
+          {{category}}
+        </option>
       </select>
     </span>
+
+    <span>
+      <label>Featured?</label>
+      <select ng-model="state.isFeatured">
+        <option ng-value="undefined">Any</option>
+        <option ng-value="true">Yes</option>
+        <option ng-value="false">No</option>
+      </select>
+    </span>
+
+    <button type="submit" class="btn btn-warning" ng-click="clearFilters()">
+      Clear
+    </button>
 
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
@@ -39,8 +74,7 @@
       class="w-33 mx-10 my-10"
       ng-repeat="image in state.images"
       ng-click="handleImageClick(image)"
-      data-tooltip="fdsfkldsj"
-    >
+      data-tooltip="fdsfkldsj">
       <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
       <img class="contained-image" src="{{image.content}}" />
     </section>

@@ -18,7 +18,7 @@ angular.module("PaintingsApp").factory("ImageService", [
       }
     );
 
-    async function genericGetAll(query) {
+    async function genericGetAll(query = {}) {
       const images = await ImageResource.getAll(query).$promise;
       if (!images) return [];
 
@@ -38,8 +38,8 @@ angular.module("PaintingsApp").factory("ImageService", [
     };
 
     // Get all paintings
-    this.getAll = function () {
-      return genericGetAll();
+    this.getAll = function (query = {}) {
+      return genericGetAll(query);
     };
 
     // Get featured paintings
