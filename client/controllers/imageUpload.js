@@ -68,7 +68,6 @@ angular.module("PaintingsApp").controller("ImageUploadCtrl", [
       }
 
       try {
-        console.log("catego", $scope.state.category);
         const res = await ImageService.upload(
           $scope.state.image,
           $scope.state.title,

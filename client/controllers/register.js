@@ -6,10 +6,8 @@ angular.module("PaintingsApp").controller("RegisterCtrl", [
     $scope.state = {
       username: "",
       password: "",
-      passwordRe: ""
+      passwordRe: "",
     };
-
-    console.log("in register ctrl");
 
     //Verify that the passwords match
     function verifyPassword() {
@@ -35,5 +33,5 @@ angular.module("PaintingsApp").controller("RegisterCtrl", [
         alert("Error registering.");
       }
     };
-  }
+  },
 ]);

@@ -17,7 +17,7 @@ angular.module("PaintingsApp").controller("LoginCtrl", [
 
         $state.go("Home", {}, { reload: true });
       } catch (err) {
-        console.log("err", err);
+        console.error("Error logging in", err);
         alert("Failed to login.");
       }
     };
