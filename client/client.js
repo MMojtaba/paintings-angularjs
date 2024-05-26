@@ -6,7 +6,6 @@
 // TODO: make image preview not go beyond the screen height (make image smaller in that case)
 // Display empty thing when loading images
 // redirect  to home if non-logged in user goes to admin states
-// redirect to home if going to image preview of not found image
 const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

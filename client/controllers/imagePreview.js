@@ -22,12 +22,18 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
 
     async function init() {
       const imageId = $stateParams.id;
-      const image = await ImageService.getOne(imageId);
-      $scope.state.image = image;
-      $scope.state.title = image.title;
-      $scope.state.descr = image.descr;
-      $scope.state.category = image.category;
-      $scope.state.isFeatured = image.isFeatured;
+      try {
+        const image = await ImageService.getOne(imageId);
+        $scope.state.image = image;
+        $scope.state.title = image.title;
+        $scope.state.descr = image.descr;
+        $scope.state.category = image.category;
+        $scope.state.isFeatured = image.isFeatured;
+      } catch (err) {
+        console.error("Image not found.", err);
+        alert("Image not found.");
+        $state.go("Home");
+      }
 
       $scope.state.isAdmin = AuthService.isAdmin();
 
