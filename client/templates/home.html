@@ -20,7 +20,7 @@
   }
 
   .animate-change {
-    /* transition: 1s; */
+    transition: filter 0.5s ease-in-out !important;
   }
 </style>
 
@@ -41,8 +41,11 @@
   </section>
 
   <section class="width-60p">
-    <h2 class="column-header">{{state.selectedImage.title}}</h2>
+    <h2 class="column-header" ng-show="state.selectedImage">
+      {{state.selectedImage.title}}
+    </h2>
     <img
+      id="home-main-image"
       class="contained-image animate-change"
       src="{{state.selectedImage.content}}"
       ng-click="handleImageClick(state.selectedImage)"
