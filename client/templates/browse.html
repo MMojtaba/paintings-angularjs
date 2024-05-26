@@ -73,7 +73,9 @@
       ng-repeat="image in state.images"
       ng-click="handleImageClick(image)"
       data-tooltip="fdsfkldsj">
-      <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
+      <label class="image-title"
+        >{{image.title}}<span ng-if="image.isFeatured">&nbsp;*</span></label
+      >
       <img class="contained-image" src="{{image.content}}" />
     </section>
   </section>

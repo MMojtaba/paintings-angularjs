@@ -108,6 +108,10 @@ body {
   margin: 1rem;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
 .mb-10 {
   margin-bottom: 1rem;
 }
@@ -219,4 +223,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.image-title {
+  border: 2px solid rgb(89, 51, 114);
+  border-radius: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: var(--main-font);
+  font-size: 2rem;
+  color: white;
+  background-color: black;
+  font-weight: lighter;
+  margin-bottom: 0;
+}
+
+.large-font {
+  font-size: 3rem;
 }

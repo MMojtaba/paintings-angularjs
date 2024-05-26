@@ -8,10 +8,12 @@
 </style>
 
 <main class="main-container">
-  <h1 class="align-self-c">
+  <h1 class="align-self-c mb-0" ng-class="{'width-80p': !state.editMode}">
     <!-- Image title -->
-    <span ng-if="!state.editMode"
-      >{{state.image.title}}<span ng-if="state.image.isFeatured">*</span></span
+    <span ng-if="!state.editMode" class="image-title large-font"
+      >{{state.image.title}}<span ng-if="state.image.isFeatured"
+        >&nbsp;*</span
+      ></span
     >
     <!-- Editable Image title and isFeatured -->
     <span ng-if="state.editMode">
@@ -21,8 +23,7 @@
 
   <img
     class="contained-image width-90p align-self-c"
-    src="{{state.image.content}}"
-  />
+    src="{{state.image.content}}" />
   <section class="mx-5p">
     <div ng-if="state.editMode">
       <label>Featured?</label>
@@ -41,8 +42,7 @@
         <select ng-model="state.category">
           <option
             ng-repeat="category in CONST.CATEGORY_LIST"
-            ng-value="category"
-          >
+            ng-value="category">
             {{category}}
           </option>
         </select>
@@ -55,8 +55,7 @@
     <textarea
       class="width-80p"
       ng-if="state.editMode"
-      ng-model="state.descr"
-    ></textarea>
+      ng-model="state.descr"></textarea>
   </section>
 
   <!-- Admin buttons -->
@@ -68,15 +67,13 @@
     <button
       class="btn btn-primary"
       ng-class="{'btn-warning': state.editMode}"
-      ng-click="handleEditClick()"
-    >
+      ng-click="handleEditClick()">
       {{state.editMode ? 'Cancel' : 'Edit'}}
     </button>
     <button
       class="btn btn-success"
       ng-if="state.editMode"
-      ng-click="handleSaveClick()"
-    >
+      ng-click="handleSaveClick()">
       Save
     </button>
   </section>
