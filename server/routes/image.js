@@ -153,6 +153,7 @@ router.delete("/images", async function (req, res) {
 
   try {
     await ImageModel.deleteOne({ fileId });
+    if (imageCache[fileId]) delete imageCache[fileId];
     return res.status(200).send({ message: "Successfully deleted file." });
   } catch (err) {
     console.error("Error deleting image.", err);
