@@ -1,21 +1,25 @@
 angular.module("PaintingsApp").controller("LoginCtrl", [
   "$scope",
   "$state",
+  "$rootScope",
   "AuthService",
-  function ($scope, $state, AuthService) {
+  function ($scope, $state, $rootScope, AuthService) {
     $scope.state = {
       username: "",
-      password: ""
+      password: "",
     };
 
     $scope.login = async function () {
       try {
         await AuthService.login($scope.state.username, $scope.state.password);
-        $state.go("Home");
+
+        $rootScope.$broadcast("loggedIn");
+
+        $state.go("Home", {}, { reload: true });
       } catch (err) {
         console.log("err", err);
         alert("Failed to login.");
       }
     };
-  }
+  },
 ]);

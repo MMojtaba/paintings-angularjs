@@ -138,91 +138,103 @@ router.get("/images/:id", async function (req, res) {
   }
 });
 
-router.put("/images", async function (req, res) {
-  console.log("here", req.body);
-  const { fileId, title, descr, category, isFeatured } = req.body;
-  if (!fileId)
-    return res.status(400).send({ message: "fileId field is required." });
-  console.log("body is", req.body);
-  try {
-    await ImageModel.updateOne(
-      { fileId },
-      {
-        $set: {
+router.put(
+  "/images",
+  AuthService.ensureAuthenticated,
+  async function (req, res) {
+    const { fileId, title, descr, category, isFeatured } = req.body;
+    if (!fileId)
+      return res.status(400).send({ message: "fileId field is required." });
+    console.log("body is", req.body);
+    try {
+      await ImageModel.updateOne(
+        { fileId },
+        {
+          $set: {
+            title,
+            descr,
+            category,
+            isFeatured,
+          },
+        }
+      );
+      console.log("updated image");
+
+      return res.status(200).send({ message: "Image updated!" });
+    } catch (err) {
+      console.error("Error updating image.", err);
+      return res.status(500).send({ message: "Error updating image." });
+    }
+  }
+);
+
+router.delete(
+  "/images",
+  AuthService.ensureAuthenticated,
+  async function (req, res) {
+    const fileId = req.query.fileId;
+    if (!fileId)
+      return res
+        .status(400)
+        .send({ message: "Please provide the id of the image to remove." });
+
+    try {
+      await bucket.delete(new mongoose.Types.ObjectId(fileId));
+      await ImageModel.deleteOne({ fileId });
+      if (imageCache[fileId]) delete imageCache[fileId];
+      return res.status(200).send({ message: "Successfully deleted file." });
+    } catch (err) {
+      console.error("Error deleting image.", err);
+      return res.status(500).send({ message: "Error deleting image." });
+    }
+  }
+);
+
+// Upload the image
+router.post(
+  "/images",
+  AuthService.ensureAuthenticated,
+  upload.single("file"),
+  function (req, res) {
+    if (!req.file) {
+      console.error("No file provided for saving.");
+      return res.status(400).send("No file provided.");
+    }
+
+    const { title, descr, category, isFeatured } = req.body;
+
+    const uploadStream = bucket.openUploadStream(req.file.originalname);
+    uploadStream.write(req.file.buffer);
+    uploadStream.end();
+
+    uploadStream.on("finish", async () => {
+      try {
+        const imageObjData = {
+          fileId: uploadStream.id,
+          fileName: uploadStream.filename,
           title,
           descr,
           category,
           isFeatured,
-        },
+        };
+
+        const newImage = new ImageModel(imageObjData);
+
+        await newImage.save();
+        console.log("Saved image.");
+
+        res.status(200).send({ imageFileId: imageObjData.fileId });
+      } catch (err) {
+        console.error("Error saving file.", err);
+        return res.status(500).send("Error saving file.");
       }
-    );
-    console.log("updated image");
+    });
 
-    return res.status(200).send({ message: "Image updated!" });
-  } catch (err) {
-    console.error("Error updating image.", err);
-    return res.status(500).send({ message: "Error updating image." });
+    uploadStream.on("error", (err) => {
+      console.error("Error uploading file:", err);
+      res.status(500).send("Error uploading file.");
+    });
   }
-});
-
-router.delete("/images", async function (req, res) {
-  const fileId = req.query.fileId;
-  if (!fileId)
-    return res
-      .status(400)
-      .send({ message: "Please provide the id of the image to remove." });
-
-  try {
-    await bucket.delete(new mongoose.Types.ObjectId(fileId));
-    await ImageModel.deleteOne({ fileId });
-    if (imageCache[fileId]) delete imageCache[fileId];
-    return res.status(200).send({ message: "Successfully deleted file." });
-  } catch (err) {
-    console.error("Error deleting image.", err);
-    return res.status(500).send({ message: "Error deleting image." });
-  }
-});
-
-// Upload the image
-router.post("/images", upload.single("file"), function (req, res) {
-  if (!req.file) {
-    console.error("No file provided for saving.");
-    return res.status(400).send("No file provided.");
-  }
-
-  const { title, descr, category, isFeatured } = req.body;
-
-  const uploadStream = bucket.openUploadStream(req.file.originalname);
-  uploadStream.write(req.file.buffer);
-  uploadStream.end();
-
-  uploadStream.on("finish", async () => {
-    try {
-      const imageObjData = {
-        fileId: uploadStream.id,
-        fileName: uploadStream.filename,
-        title,
-        descr,
-        category,
-        isFeatured,
-      };
-
-      const newImage = new ImageModel(imageObjData);
-
-      await newImage.save();
-      console.log("Saved image.");
-
-      res.status(200).send({ imageFileId: imageObjData.fileId });
-    } catch (err) {
-      console.error("Error saving file.", err);
-      return res.status(500).send("Error saving file.");
-    }
-  });
-
-  uploadStream.on("error", (err) => {
-    console.error("Error uploading file:", err);
-    res.status(500).send("Error uploading file.");
-  });
-});
+);
 
 module.exports = router;

@@ -64,7 +64,7 @@ angular.module("PaintingsApp").factory("ImageService", [
     this.update = function (image) {
       const imageMeta = angular.copy(image);
       delete imageMeta.content;
-      return ImageResource.update(imageMeta);
+      return ImageResource.update(imageMeta).$promise;
     };
 
     this.delete = function (fileId) {

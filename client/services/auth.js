@@ -20,6 +20,11 @@ angular.module("PaintingsApp").factory("AuthService", [
       return Logout.save().$promise;
     };
 
+    const Authenticated = $resource("/api/auth");
+    this.checkAuthenticated = function () {
+      return Authenticated.get().$promise;
+    };
+
     this.isAdmin = function () {
       if ($rootScope.user?.username) return true;
       return false;
