@@ -165,6 +165,7 @@ router.delete("/images", async function (req, res) {
       .send({ message: "Please provide the id of the image to remove." });
 
   try {
+    await bucket.delete(new mongoose.Types.ObjectId(fileId));
     await ImageModel.deleteOne({ fileId });
     if (imageCache[fileId]) delete imageCache[fileId];
     return res.status(200).send({ message: "Successfully deleted file." });
