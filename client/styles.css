@@ -12,6 +12,10 @@ body {
   color: black;
 }
 
+.main-font {
+  font-family: var(--main-font);
+}
+
 .flex {
   display: flex;
 }
@@ -190,6 +194,10 @@ body {
 
 .text-medium {
   font-size: 2.5rem;
+}
+
+.text-bold {
+  font-weight: bold;
 }
 
 .text-center {

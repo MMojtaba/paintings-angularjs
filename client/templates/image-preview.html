@@ -26,14 +26,16 @@
     src="{{state.image.content}}" />
   <section class="mx-5p">
     <div ng-if="state.editMode">
-      <label>Featured?</label>
+      <label class="main-font text-medium text-bold">Featured?</label>
       <input type="checkbox" ng-model="state.isFeatured" />
     </div>
     <!-- Category -->
     <div>
-      <label>Category:</label>
+      <label class="main-font text-medium">Category:</label>
 
-      <span ng-if="!state.editMode"> {{state.image.category}}</span>
+      <span ng-if="!state.editMode" class="main-font text-medium">
+        {{state.image.category}}</span
+      >
       <!-- <span
         ng-if="state.editMode"
         ng-include="'./client/templates/partials/category-select.html'"
@@ -50,8 +52,10 @@
     </div>
   </section>
   <section class="mx-5p">
-    <h3 class="mt-0">Description</h3>
-    <p ng-if="!state.editMode">{{state.image.descr}}</p>
+    <h3 class="mt-0 main-font text-medium text-bold">Description</h3>
+    <p ng-if="!state.editMode" class="main-font text-medium">
+      {{state.image.descr}}
+    </p>
     <textarea
       class="width-80p"
       ng-if="state.editMode"
