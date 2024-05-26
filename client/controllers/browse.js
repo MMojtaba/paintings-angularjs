@@ -39,11 +39,15 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       $scope.state.category = undefined;
       $scope.state.isFeatured = undefined;
       firstLoad = true;
+      skip = 0;
       getImages();
     };
 
     async function getImages() {
-      if (firstLoad) $scope.state.isLoading = true;
+      if (firstLoad) {
+        $scope.state.isLoading = true;
+        $scope.state.images = [];
+      }
       try {
         // Default filters and sorting
         const query = {};
@@ -85,6 +89,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
 
     $scope.handleSubmit = function () {
       firstLoad = true;
+      skip = 0;
       getImages();
     };
 
