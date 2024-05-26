@@ -7,7 +7,7 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
   function ($scope, $state, $stateParams, ImageService, AuthService) {
     $scope.state = {
       image: null,
-      editMode: true, //TODO: false
+      editMode: false,
       isAdmin: false,
       // Image info
       title: "",

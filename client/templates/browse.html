@@ -4,19 +4,23 @@
     flex-direction: row;
     flex-wrap: wrap;
   }
+
+  .search-form {
+    background-color: rgb(53, 53, 103);
+  }
 </style>
 
 <main class="m-10">
   <!-- Filter section -->
-  <form ng-submit="search()">
+  <form ng-submit="search()" class="search-form">
     <span>
       <label>Keyword</label>
       <input type="text" placeholder="Search by keyword..." />
     </span>
 
     <span>
-      <label>Date</label>
-      <input type="date" />
+      <label>From</label>
+      <input ng-value="state.startDate" type="date" />
     </span>
 
     <span>
@@ -35,7 +39,8 @@
       class="w-33 mx-10 my-10"
       ng-repeat="image in state.images"
       ng-click="handleImageClick(image)"
-      data-tooltip="fdsfkldsj">
+      data-tooltip="fdsfkldsj"
+    >
       <label>{{image.title}}<span ng-if="image.isFeatured">*</span></label>
       <img class="contained-image" src="{{image.content}}" />
     </section>
