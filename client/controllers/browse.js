@@ -12,6 +12,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       isFeatured: undefined,
       notFound: false,
       isLoading: true,
+      loadingMore: false,
     };
 
     const loadStep = 12; //how many images to load in each step
@@ -45,6 +46,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
     async function getImages() {
       if (firstLoad) $scope.state.isLoading = true;
       try {
+        // Default filters and sorting
         const query = {};
         query.limit = loadStep;
         query.skip = skip;
@@ -52,14 +54,16 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
           createdAt: -1,
         };
         skip += loadStep;
+
+        // User selected filters
         if ($scope.state.keyword) query.keyword = $scope.state.keyword;
         if ($scope.state.startDate) query.startDate = $scope.state.startDate;
         if ($scope.state.endDate) query.endDate = $scope.state.endDate;
         if ($scope.state.category) query.category = $scope.state.category;
         if ($scope.state.isFeatured !== undefined)
           query.isFeatured = $scope.state.isFeatured;
+
         const images = await ImageService.getAll(query);
-        console.log("got ne images", skip, images);
         $scope.state.images.push(...images);
         $scope.state.notFound = false;
         $scope.state.isLoading = false;
@@ -72,7 +76,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
           console.warn("No images found for the given filter.");
           $scope.state.notFound = true;
           alert("No images found.");
-        } else {
+        } else if (err.status !== 404) {
           console.error("Error getting images", err);
           alert("Error getting images.");
         }
@@ -85,9 +89,12 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       getImages();
     };
 
-    $scope.handleLoadMore = function () {
+    $scope.handleLoadMore = async function () {
       firstLoad = false;
-      getImages();
+      $scope.state.loadingMore = true;
+      await getImages();
+      $scope.state.loadingMore = false;
+      $scope.$apply();
     };
   },
 ]);

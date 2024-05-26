@@ -96,8 +96,9 @@
   <section class="text-center">
     <button
       class="btn btn-primary m-10 main-font text-medium width-90p"
-      ng-click="handleLoadMore()">
-      Load more
+      ng-click="handleLoadMore()"
+      ng-class="{'disabled': state.loadingMore}">
+      {{state.loadingMore ? 'Loading...' : 'Load more' }}
     </button>
   </section>
 </main>
