@@ -7,17 +7,18 @@ angular.module("PaintingsApp").factory("ImageService", [
       {
         getAll: { method: "GET", isArray: true },
         getOne: { method: "GET", url: "/api/images/:id" },
+        update: { method: "PUT", url: "/api/images" },
         upload: {
           method: "POST",
           transformRequest: angular.identity,
           headers: {
-            "Content-Type": undefined
-          }
-        }
+            "Content-Type": undefined,
+          },
+        },
       }
     );
 
-    async function genericGetAll(query) {
+    async function genericGetAll(query = {}) {
       const images = await ImageResource.getAll(query).$promise;
       if (!images) return [];
 
@@ -31,19 +32,21 @@ angular.module("PaintingsApp").factory("ImageService", [
       formData.append("title", title);
       formData.append("descr", descr);
       formData.append("category", category);
-      formData.append("isFeatured", category);
+      formData.append("isFeatured", isFeatured);
 
       return ImageResource.upload(formData).$promise;
     };
 
     // Get all paintings
-    this.getAll = function () {
-      return genericGetAll();
+    this.getAll = function (query = {}) {
+      return genericGetAll(query);
     };
 
     // Get featured paintings
-    this.getFeatured = async function () {
-      return genericGetAll({ featured: true });
+    this.getFeatured = async function (query) {
+      const query2 = { ...query };
+      query2.isFeatured = true;
+      return genericGetAll(query2);
     };
 
     // Get a painting by its fileId
@@ -57,6 +60,27 @@ angular.module("PaintingsApp").factory("ImageService", [
       return image;
     };
 
+    // Update an image (title, descr, etc. not the picture itself)
+    this.update = function (image) {
+      const imageMeta = angular.copy(image);
+      delete imageMeta.content;
+      return ImageResource.update(imageMeta).$promise;
+    };
+
+    this.delete = function (fileId) {
+      return ImageResource.delete({ fileId: fileId }).$promise;
+    };
+
+    this.CATEGORIES = {
+      OTHER: "Other",
+      LANDSCAPE: "Landscape",
+      SEA: "Sea",
+      SKY: "Sky",
+      JUNGLE: "Jungle",
+    };
+
+    this.CATEGORY_LIST = Object.values(this.CATEGORIES);
+
     return this;
-  }
+  },
 ]);

@@ -8,30 +8,87 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
     $scope.state = {
       selectedImage: null,
       featured: [],
-      images: []
+      images: [],
+      isLoading: true,
+      isFeaturedLoading: true,
     };
 
+    let currImageIndex = 1;
+
     async function init() {
-      try {
-        $scope.state.images = await ImageService.getAll();
-        $scope.state.featured = await ImageService.getFeatured();
-        $scope.state.selectedImage = $scope.state.featured?.at(0);
-        $scope.$apply();
-      } catch (err) {
-        $scope.state.images = [];
-        $scope.state.featured = [];
-        $scope.state.selectedImage = null;
-        console.error("Error getting images.", err);
-      }
+      const query = {
+        limit: 4,
+        sort: {
+          createdAt: -1,
+        },
+      };
+      ImageService.getAll(query)
+        .then(function (res) {
+          $scope.state.images = res;
+          if (!$scope.state.selectedImage)
+            $scope.state.selectedImage = res?.at(0);
+          $scope.state.isLoading = false;
+          $scope.$apply();
+        })
+        .catch(function (err) {
+          $scope.state.isLoading = false;
+          if (err.status !== 404)
+            console.error("Error getting featured images.", err);
+        });
+
+      ImageService.getFeatured(query)
+        .then(function (res) {
+          $scope.state.featured = res;
+          if (!$scope.state.selectedImage)
+            $scope.state.selectedImage = res?.at(0);
+          $scope.state.isFeaturedLoading = false;
+          $scope.$apply();
+        })
+        .catch(function (err) {
+          $scope.state.isFeaturedLoading = false;
+          if (err.status !== 404)
+            console.error("Error getting featured images.", err);
+        });
+
+      // Run the change image function periodically
+      const changeImageIntervalid = setInterval(changeImage, 5000);
     }
     init();
 
+    // Changes the image and animates it
+    async function animateAndChangeImage(image) {
+      const mainImageElement = document.getElementById("home-main-image");
+      if (mainImageElement) {
+        mainImageElement.style.filter = "brightness(0.7)";
+        await $timeout(() => {}, 250);
+        $scope.state.selectedImage = image;
+        await $timeout(() => {}, 250);
+        mainImageElement.style.filter = "brightness(1)";
+      }
+    }
+
+    // Changes the main image
+    function changeImage() {
+      // use the featured images if they exist
+      if ($scope.state.featured?.length) {
+        const length = $scope.state.featured.length;
+        animateAndChangeImage($scope.state.featured[currImageIndex % length]);
+        currImageIndex++;
+      } else if ($scope.state.images?.length) {
+        const length = $scope.state.images.length;
+        animateAndChangeImage($scope.state.images[currImageIndex % length]);
+        currImageIndex++;
+      }
+    }
+
     $scope.handleImageClick = function (image) {
       // Go to image preview if clicking the selected image
-      if ($scope.state.selectedImage === image)
+      if ($scope.state.selectedImage === image) {
         $state.go("ImagePreview", { id: image.fileId });
-      // Otherwise, set this as the selected image
-      else $scope.state.selectedImage = image;
+      } else {
+        // Otherwise, set this as the selected image
+        animateAndChangeImage(image);
+      }
     };
-  }
+  },
 ]);

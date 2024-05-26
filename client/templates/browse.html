@@ -1,26 +1,104 @@
+<style>
+  .image-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .search-form {
+    background-image: linear-gradient(
+      to right,
+      rgb(123, 120, 221),
+      rgb(96, 127, 208),
+      rgb(138, 178, 237)
+    );
+    height: 100%;
+    padding: 1rem;
+    border: 2px solid rgb(0, 0, 0);
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    font-family: var(--main-font);
+    font-size: 2rem;
+  }
+</style>
+
 <main>
+  <section
+    ng-include="'templates/loading.html'"
+    ng-if="state.isLoading"></section>
   <!-- Filter section -->
-  <form ng-submit="search()">
+  <section class="search-form overlay-high">
     <span>
       <label>Keyword</label>
-      <input type="text" placeholder="Search by keyword..." />
+      <input
+        type="text"
+        ng-model="state.keyword"
+        placeholder="Search by keyword..." />
     </span>
 
     <span>
-      <label>Date</label>
-      <input type="date" />
+      <label>From</label>
+      <input ng-model="state.startDate" type="date" />
+    </span>
+
+    <span>
+      <label>To</label>
+      <input ng-model="state.endDate" type="date" />
     </span>
 
     <span>
       <label>Category</label>
-      <select value="One">
-        <option>One</option>
+      <select ng-model="state.category">
+        <option ng-value="undefined">Any</option>
+        <option ng-repeat="category in CONST.CATEGORY_LIST" ng-value="category">
+          {{category}}
+        </option>
       </select>
     </span>
 
-    <button type="submit" class="btn btn-success">Submit</button>
-  </form>
+    <span>
+      <label>Featured?</label>
+      <select ng-model="state.isFeatured">
+        <option ng-value="undefined">Any</option>
+        <option ng-value="true">Yes</option>
+        <option ng-value="false">No</option>
+      </select>
+    </span>
+
+    <button class="btn btn-warning" ng-click="clearFilters()">Clear</button>
+
+    <button class="btn btn-success" ng-click="handleSubmit()">Submit</button>
+  </section>
 
   <!-- Results section -->
-  <section></section>
+  <section class="image-list">
+    <section
+      class="w-33 mx-10 my-10"
+      ng-repeat="image in state.images"
+      ng-click="handleImageClick(image)">
+      <label class="image-title"
+        >{{image.title}}<span ng-if="image.isFeatured">&nbsp;*</span></label
+      >
+      <img
+        class="contained-image"
+        src="{{image.content}}"
+        data-toggle="popover"
+        title="{{image.descr}}" />
+    </section>
+  </section>
+
+  <!-- No images found message -->
+  <section ng-if="state.notFound" class="error-box">
+    <span>No images found!</span>
+  </section>
+
+  <section class="text-center">
+    <button
+      class="btn btn-primary m-10 main-font text-medium width-90p"
+      ng-click="handleLoadMore()"
+      ng-class="{'disabled': state.loadingMore}">
+      {{state.loadingMore ? 'Loading...' : 'Load more' }}
+    </button>
+  </section>
 </main>

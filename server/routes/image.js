@@ -7,6 +7,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 const ImageModel = require("../models/Image.js");
 
 const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
+const enableCache = process.env.ENABLE_CACHE;
+
+// For caching images
+const imageCache = {};
 
 const dbConnection = mongoose.createConnection(dbPath);
 
@@ -15,33 +19,56 @@ let bucket;
 dbConnection.once("open", () => {
   console.log("Connected to database for GridFS");
   bucket = new mongoose.mongo.GridFSBucket(dbConnection.db, {
-    bucketName: "images"
+    bucketName: "images",
   });
 });
 
 // Puts image in a format that can be used by the frontend
 function parseImageBeforeSend(image, buffer) {
   // TODO: use actual file type instead of png
-  const content = `data:image/png;base64, ${buffer.toString("base64")}`;
   const parsedImage = JSON.parse(JSON.stringify(image));
-  parsedImage.content = content;
+  if (buffer) {
+    const content = `data:image/png;base64, ${buffer.toString("base64")}`;
+    parsedImage.content = content;
+  }
   return parsedImage;
 }
 
+// function updateImageMeta(image, newData) {
+//   image.title = newData.title;
+//   image.descr = newData.descr;
+//   image.isFeatured = newData.isFeatured;
+//   image.category = newData.category;
+//   return image;
+// }
+
 // Gets images from gridfs based on the given ImageModel objects provided
 async function getImages(imageInfos) {
-  // TODO: add caching
   const images = await Promise.all(
     imageInfos.map(async (info) => {
-      const chunks = [];
-      const stream = bucket.openDownloadStream(info.fileId);
-      const buffer = await new Promise((resolve, reject) => {
-        stream.on("data", (chunk) => chunks.push(chunk));
-        stream.on("end", () => resolve(Buffer.concat(chunks)));
-        stream.on("error", reject);
-      });
+      // Use cache if available
+      if (imageCache[info.fileId]) {
+        const parsed = parseImageBeforeSend(info);
+        parsed.content = imageCache[info.fileId];
+        return parsed;
+      } else {
+        // Clear cache if too large
+        if (Object.keys(imageCache).length > 50) imageCache = {};
 
-      return parseImageBeforeSend(info, buffer);
+        const chunks = [];
+        const stream = bucket.openDownloadStream(info.fileId);
+        const buffer = await new Promise((resolve, reject) => {
+          stream.on("data", (chunk) => chunks.push(chunk));
+          stream.on("end", () => resolve(Buffer.concat(chunks)));
+          stream.on("error", reject);
+        });
+
+        const parsed = parseImageBeforeSend(info, buffer);
+
+        // Cache image
+        if (enableCache === "true") imageCache[info.fileId] = parsed.content;
+        return parsed;
+      }
     })
   );
 
@@ -52,19 +79,39 @@ async function getImages(imageInfos) {
 router.get("/images", async function (req, res) {
   try {
     const limit = req.query.limit || 10;
-    const parsedQuery = {};
-    if (Object.hasOwn(req.query, "featured"))
-      parsedQuery.featured = req.query.featured;
+    const skip = req.query.skip || 0;
+    const sort = JSON.parse(req.query.sort || "{}");
+    const { category, keyword, startDate, endDate } = req.query;
+    const parsedQuery = { $and: [] };
+    const sortQuery = {};
+    if (Object.hasOwn(req.query, "isFeatured"))
+      parsedQuery.$and.push({ isFeatured: req.query.isFeatured });
+    if (category) parsedQuery.$and.push({ category });
 
-    console.log("query is", parsedQuery);
+    if (startDate) parsedQuery.$and.push({ createdAt: { $gte: startDate } });
+    if (endDate) parsedQuery.$and.push({ createdAt: { $lte: endDate } });
 
-    const imageInfos = await ImageModel.find(parsedQuery).limit(limit);
+    // Search for keyword in title and description
+    if (keyword) {
+      const regex = new RegExp(keyword, "i");
+      parsedQuery.$and.push({ $or: [{ title: regex }, { descr: regex }] });
+    }
+
+    if (sort?.createdAt) sortQuery.createdAt = sort.createdAt;
+
+    let finalQuery = {};
+    if (parsedQuery.$and.length) finalQuery = parsedQuery;
+    const imageInfos = await ImageModel.find(finalQuery)
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(limit);
 
     if (imageInfos.length === 0) {
       return res.status(404).send("No image found");
     }
 
     const images = await getImages(imageInfos);
+    // res.set("Cache-Control", "public, max-age=3600");
 
     return res.status(200).send(images);
   } catch (err) {
@@ -80,8 +127,10 @@ router.get("/images/:id", async function (req, res) {
     const imageInfo = await ImageModel.findOne({ fileId: fileId });
 
     if (!imageInfo) return res.status(404).send("Image not found.");
-
+    console.log("image info is", imageInfo);
     const images = await getImages([imageInfo]);
+
+    console.log("about to return", images[0]?.descr);
 
     return res.status(200).send(images?.at(0));
   } catch (err) {
@@ -90,46 +139,103 @@ router.get("/images/:id", async function (req, res) {
   }
 });
 
-// Upload the image
-router.post("/images", upload.single("file"), function (req, res) {
-  if (!req.file) {
-    console.error("No file provided for saving.");
-    return res.status(400).send("No file provided.");
-  }
-
-  const { title, descr, category, featured } = req.body;
-
-  const uploadStream = bucket.openUploadStream(req.file.originalname);
-  uploadStream.write(req.file.buffer);
-  uploadStream.end();
-
-  uploadStream.on("finish", async () => {
+router.put(
+  "/images",
+  AuthService.ensureAuthenticated,
+  async function (req, res) {
+    const { fileId, title, descr, category, isFeatured } = req.body;
+    if (!fileId)
+      return res.status(400).send({ message: "fileId field is required." });
+    console.log("body is", req.body);
     try {
-      const imageObjData = {
-        fileId: uploadStream.id,
-        fileName: uploadStream.filename,
-        title,
-        descr,
-        category,
-        featured
-      };
+      await ImageModel.updateOne(
+        { fileId },
+        {
+          $set: {
+            title,
+            descr,
+            category,
+            isFeatured,
+          },
+        }
+      );
+      console.log("updated image");
 
-      const newImage = new ImageModel(imageObjData);
-
-      await newImage.save();
-      console.log("Saved image.");
-
-      res.status(200).send("File uploaded successfully.");
+      return res.status(200).send({ message: "Image updated!" });
     } catch (err) {
-      console.error("Error saving file.", err);
-      return res.status(500).send("Error saving file.");
+      console.error("Error updating image.", err);
+      return res.status(500).send({ message: "Error updating image." });
     }
-  });
+  }
+);
 
-  uploadStream.on("error", (err) => {
-    console.error("Error uploading file:", err);
-    res.status(500).send("Error uploading file.");
-  });
-});
+router.delete(
+  "/images",
+  AuthService.ensureAuthenticated,
+  async function (req, res) {
+    const fileId = req.query.fileId;
+    if (!fileId)
+      return res
+        .status(400)
+        .send({ message: "Please provide the id of the image to remove." });
+
+    try {
+      await bucket.delete(new mongoose.Types.ObjectId(fileId));
+      await ImageModel.deleteOne({ fileId });
+      if (imageCache[fileId]) delete imageCache[fileId];
+      return res.status(200).send({ message: "Successfully deleted file." });
+    } catch (err) {
+      console.error("Error deleting image.", err);
+      return res.status(500).send({ message: "Error deleting image." });
+    }
+  }
+);
+
+// Upload the image
+router.post(
+  "/images",
+  AuthService.ensureAuthenticated,
+  upload.single("file"),
+  function (req, res) {
+    if (!req.file) {
+      console.error("No file provided for saving.");
+      return res.status(400).send("No file provided.");
+    }
+
+    const { title, descr, category, isFeatured } = req.body;
+
+    const uploadStream = bucket.openUploadStream(req.file.originalname);
+    uploadStream.write(req.file.buffer);
+    uploadStream.end();
+
+    uploadStream.on("finish", async () => {
+      try {
+        const imageObjData = {
+          fileId: uploadStream.id,
+          fileName: uploadStream.filename,
+          title,
+          descr,
+          category,
+          isFeatured,
+        };
+
+        const newImage = new ImageModel(imageObjData);
+
+        await newImage.save();
+        console.log("Saved image.");
+
+        res.status(200).send({ imageFileId: imageObjData.fileId });
+      } catch (err) {
+        console.error("Error saving file.", err);
+        return res.status(500).send("Error saving file.");
+      }
+    });
+
+    uploadStream.on("error", (err) => {
+      console.error("Error uploading file:", err);
+      res.status(500).send("Error uploading file.");
+    });
+  }
+);
 
 module.exports = router;

@@ -1,3 +1,7 @@
+:root {
+  --main-font: "Brush Script MT", cursive;
+}
+
 body {
   background-image: linear-gradient(
     to bottom right,
@@ -6,6 +10,30 @@ body {
   );
   background-attachment: fixed;
   color: black;
+}
+
+.main-font {
+  font-family: var(--main-font);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.gap1 {
+  gap: 1rem;
+}
+
+.align-self-c {
+  align-self: center;
 }
 
 .mx-0 {
@@ -53,6 +81,23 @@ body {
   margin-right: 1.1rem;
 }
 
+.mx-5p {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.mr-11 {
+  margin-right: 1.1rem;
+}
+
+.mr-22 {
+  margin-right: 2.2rem;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
 .my-0 {
   margin-top: 0rem;
   margin-bottom: 0rem;
@@ -63,12 +108,65 @@ body {
   margin-bottom: 1rem;
 }
 
+.m-10 {
+  margin: 1rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
 .mb-10 {
   margin-bottom: 1rem;
 }
 
-.width-70 {
+.py-10 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.width-20p {
+  width: 20% !important;
+}
+
+.width-33p {
+  width: 33% !important;
+}
+
+.width-40p {
+  width: 40% !important;
+}
+
+.width-45p {
+  width: 45% !important;
+}
+
+.width-50p {
+  width: 50% !important;
+}
+
+.width-55p {
+  width: 55% !important;
+}
+
+.width-60p {
   width: 60% !important;
+}
+
+.width-80p {
+  width: 80% !important;
+}
+
+.width-90p {
+  width: 90% !important;
+}
+
+.width-100p {
+  width: 100% !important;
+}
+
+.w-33 {
+  width: 20rem;
 }
 
 .height-auto {
@@ -76,22 +174,83 @@ body {
 }
 
 .bg-purple {
-  background-color: purple;
+  background-color: purple !important;
 }
 
 .bg-red {
-  background-color: rgb(168, 33, 51);
+  background-color: rgb(168, 33, 51) !important;
 }
 
-.image-container {
-  /* width: 20vw; */
+.bg-grey {
+  background-color: rgb(75, 75, 75) !important;
+}
+
+.contained-image {
   width: 100%;
-  /* height: 20vh; */
   outline: 3px solid rgb(73, 0, 67);
   border-radius: 3px;
   margin-top: 1rem;
 }
 
-.image-container > img {
+.text-medium {
+  font-size: 2.5rem;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.large-checkbox {
+  --webkit-appearance: none;
+  height: 2.5rem;
+  width: 2.5rem;
+  background-color: red !important;
+  color: red !important;
+  background: red !important;
+}
+
+.error-box {
+  border: 5px solid red;
+  color: red;
+  background-color: pink;
+  border-radius: 1rem;
+  height: 7rem;
+  width: 60%;
+  font-family: var(--main-font);
+  font-weight: bolder;
+  font-size: 3rem;
+  margin-top: 3rem;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-title {
+  border: 2px solid rgb(89, 51, 114);
+  border-radius: 1rem;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: var(--main-font);
+  font-size: 2rem;
+  color: white;
+  background-color: black;
+  font-weight: lighter;
+  margin-bottom: 0;
+}
+
+.large-font {
+  font-size: 3rem;
+}
+
+.overlay-high {
+  position: relative;
+  z-index: 1000;
 }

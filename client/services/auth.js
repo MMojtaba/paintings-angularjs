@@ -1,6 +1,7 @@
 angular.module("PaintingsApp").factory("AuthService", [
   "$resource",
-  function ($resource) {
+  "$rootScope",
+  function ($resource, $rootScope) {
     //Register user
     const Register = $resource("/api/register");
     this.register = function (username, password) {
@@ -19,6 +20,16 @@ angular.module("PaintingsApp").factory("AuthService", [
       return Logout.save().$promise;
     };
 
+    const Authenticated = $resource("/api/auth");
+    this.checkAuthenticated = function () {
+      return Authenticated.get().$promise;
+    };
+
+    this.isAdmin = function () {
+      if ($rootScope.user?.username) return true;
+      return false;
+    };
+
     return this;
-  }
+  },
 ]);

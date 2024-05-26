@@ -2,46 +2,66 @@
   .main-container {
     display: flex;
     flex-direction: row;
-    /* align-items: center; */
-    /* gap: 3rem; */
   }
 
   .main-container > * {
     margin-left: 1rem;
     margin-right: 1rem;
   }
+
+  .column-header {
+    /* border: 5px solid black; */
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    padding: 0.3rem;
+    text-align: center;
+    font-family: var(--main-font);
+  }
+
+  .animate-change {
+    transition: filter 0.5s ease-in-out !important;
+  }
 </style>
 
 <main class="main-container">
-  <section style="width: 20%">
-    <h2>Featured</h2>
-    <section
-      class="image-container"
-      ng-repeat="image in state.featured track by $index">
-      <img
-        ng-click="handleImageClick(image)"
-        src="{{image.content}}"
-        alt="Loading" />
-    </section>
+  <section
+    ng-include="'templates/loading.html'"
+    ng-if="state.isLoading || state.isFeaturedLoading"></section>
+
+  <section class="width-20p">
+    <h2 class="column-header bg-grey">Featured</h2>
+    <img
+      ng-repeat="image in state.featured track by $index"
+      class="contained-image"
+      ng-click="handleImageClick(image)"
+      src="{{image.content}}"
+      data-toggle="popover"
+      title="{{image.title}}: {{image.descr}}" />
   </section>
 
-  <section style="width: 60%">
-    <section class="image-container">
-      <img
-        src="{{state.selectedImage.content}}"
-        alt="Image"
-        ng-click="handleImageClick(state.selectedImage)" />
-    </section>
+  <section class="width-60p">
+    <h2 class="column-header" ng-show="state.selectedImage">
+      {{state.selectedImage.title}}
+    </h2>
+    <img
+      id="home-main-image"
+      class="contained-image animate-change"
+      src="{{state.selectedImage.content}}"
+      ng-click="handleImageClick(state.selectedImage)"
+      data-toggle="popover"
+      title="{{state.selectedImage.descr}}" />
   </section>
 
-  <section style="width: 20%">
-    <h2>New</h2>
-    <section
-      class="image-container"
-      ng-repeat="image in state.images track by $index">
-      <img ng-click="handleImageClick(image)" src="{{image.content}}" />
-    </section>
+  <section class="width-20p">
+    <h2 class="column-header bg-grey">What's New</h2>
+
+    <img
+      class="contained-image"
+      ng-repeat="image in state.images track by $index"
+      ng-click="handleImageClick(image)"
+      src="{{image.content}}"
+      data-toggle="popover"
+      title="{{image.title}}: {{image.descr}}" />
   </section>
 </main>
-
-<!-- TODO: load more buttons -->

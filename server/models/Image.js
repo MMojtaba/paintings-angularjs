@@ -7,13 +7,13 @@ const imageSchema = new mongoose.Schema(
       ref: "images.files",
       required: true,
       unique: true,
-      index: true
+      index: true,
     },
     fileName: { type: String, required: true },
     title: { type: String, required: true },
     descr: { type: String },
-    category: { type: String, default: "NA" },
-    featured: { type: Boolean, default: false }
+    category: { type: String, default: "Other" },
+    isFeatured: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
