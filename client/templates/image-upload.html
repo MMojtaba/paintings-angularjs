@@ -14,13 +14,13 @@
   <section class="main-container">
     <section class="width-40p mx-11">
       <form ng-submit="uploadImage()" enctype="multipart/form-data">
-        <!-- TODO: make required -->
         <section class="form-group">
           <label>Title</label>
           <input
             type="text"
             class="form-control title-input"
-            ng-model="state.title" />
+            ng-model="state.title"
+            required />
         </section>
 
         <section class="form-group">

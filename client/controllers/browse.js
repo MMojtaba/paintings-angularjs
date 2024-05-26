@@ -28,7 +28,6 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
     }
     init();
 
-    // TODO: handleImageClick in a utils file?
     $scope.handleImageClick = function (image) {
       $state.go("ImagePreview", { id: image.fileId });
     };
