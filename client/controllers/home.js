@@ -8,29 +8,33 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
     $scope.state = {
       selectedImage: null,
       featured: [],
-      images: []
+      images: [],
+      isLoading: true,
     };
 
     async function init() {
+      ImageService.getAll()
+        .then(function (res) {
+          $scope.state.images = res;
+          $scope.state.selectedImage = res?.at(0);
+          $scope.state.isLoading = false;
+          $scope.$apply();
+        })
+        .catch(function (err) {
+          if (err.status !== 404)
+            console.error("Error getting featured images.", err);
+        });
 
-      ImageService.getAll().then(function (res) {
-        $scope.state.images = res;
-        $scope.state.selectedImage = res?.at(0);
-        $scope.$apply();
-      }).catch(function (err) {
-        if (err.status !== 404)
-          console.error('Error getting featured images.', err);
-      });
-
-      ImageService.getFeatured().then(function (res) {
-        $scope.state.featured = res;
-        $scope.$apply();
-      }).catch(function (err) {
-        if (err.status !== 404)
-          console.error('Error getting featured images.', err);
-
-      })
-
+      ImageService.getFeatured()
+        .then(function (res) {
+          $scope.state.featured = res;
+          $scope.state.isLoading = false;
+          $scope.$apply();
+        })
+        .catch(function (err) {
+          if (err.status !== 404)
+            console.error("Error getting featured images.", err);
+        });
     }
     init();
 
@@ -41,5 +45,5 @@ angular.module("PaintingsApp").controller("HomeCtrl", [
       // Otherwise, set this as the selected image
       else $scope.state.selectedImage = image;
     };
-  }
+  },
 ]);

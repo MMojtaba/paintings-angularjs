@@ -22,6 +22,9 @@
 </style>
 
 <main>
+  <section
+    ng-include="'templates/loading.html'"
+    ng-if="state.isLoading"></section>
   <!-- Filter section -->
   <section class="search-form">
     <span>

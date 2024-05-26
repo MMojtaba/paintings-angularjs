@@ -25,6 +25,10 @@
 </style>
 
 <main class="main-container">
+  <section
+    ng-include="'templates/loading.html'"
+    ng-if="state.isLoading"></section>
+
   <section class="width-20p">
     <h2 class="column-header">Featured</h2>
     <img

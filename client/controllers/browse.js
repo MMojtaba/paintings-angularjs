@@ -11,6 +11,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       category: undefined,
       isFeatured: undefined,
       notFound: false,
+      isLoading: true,
     };
 
     $scope.CONST = {
@@ -37,6 +38,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
     };
 
     async function getImages() {
+      $scope.state.isLoading = true;
       try {
         const query = {};
         query.limit = 10;
@@ -48,8 +50,12 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
           query.isFeatured = $scope.state.isFeatured;
         $scope.state.images = await ImageService.getAll(query);
         $scope.state.notFound = false;
+        $scope.state.isLoading = false;
+
         $scope.$apply();
       } catch (err) {
+        $scope.state.isLoading = false;
+
         $scope.state.images = [];
         if (err.status === 404) {
           console.warn("No images found for the given filter.");

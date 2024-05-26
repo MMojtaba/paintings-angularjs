@@ -1,12 +1,3 @@
-// TODO: frontend auth
-// TODO: change password
-// TODO: font
-// TODO: make image preview not go beyond the screen height (make image smaller in that case)
-// Display empty thing when loading images
-// redirect  to home if non-logged in user goes to admin states
-// Hover over images effect
-// pages in browse?
-// allow submit search in browse by enter key on input box
 const app = angular.module("PaintingsApp", ["ui.router", "ngResource"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
