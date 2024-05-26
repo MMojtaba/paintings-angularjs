@@ -10,6 +10,7 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
       endDate: null,
       category: undefined,
       isFeatured: undefined,
+      notFound: false,
     };
 
     $scope.CONST = {
@@ -46,17 +47,19 @@ angular.module("PaintingsApp").controller("BrowseCtrl", [
         if ($scope.state.isFeatured !== undefined)
           query.isFeatured = $scope.state.isFeatured;
         $scope.state.images = await ImageService.getAll(query);
+        $scope.state.notFound = false;
         $scope.$apply();
       } catch (err) {
         $scope.state.images = [];
-        $scope.$apply();
         if (err.status === 404) {
           console.warn("No images found for the given filter.");
+          $scope.state.notFound = true;
           alert("No images found.");
         } else {
           console.error("Error getting images", err);
           alert("Error getting images.");
         }
+        $scope.$apply();
       }
     }
 

@@ -71,17 +71,20 @@
     <section
       class="w-33 mx-10 my-10"
       ng-repeat="image in state.images"
-      ng-click="handleImageClick(image)"
-      data-tooltip="fdsfkldsj">
+      ng-click="handleImageClick(image)">
       <label class="image-title"
         >{{image.title}}<span ng-if="image.isFeatured">&nbsp;*</span></label
       >
-      <img class="contained-image" src="{{image.content}}" />
+      <img
+        class="contained-image"
+        src="{{image.content}}"
+        data-toggle="popover"
+        title="{{image.descr}}" />
     </section>
   </section>
 
   <!-- No images found message -->
-  <section ng-if="!state.images.length" class="error-box">
+  <section ng-if="state.notFound" class="error-box">
     <span>No images found!</span>
   </section>
 </main>

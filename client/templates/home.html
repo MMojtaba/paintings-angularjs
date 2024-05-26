@@ -32,7 +32,8 @@
       class="contained-image"
       ng-click="handleImageClick(image)"
       src="{{image.content}}"
-    />
+      data-toggle="popover"
+      title="{{image.title}}: {{image.descr}}" />
   </section>
 
   <section class="width-60p">
@@ -41,7 +42,8 @@
       class="contained-image animate-change"
       src="{{state.selectedImage.content}}"
       ng-click="handleImageClick(state.selectedImage)"
-    />
+      data-toggle="popover"
+      title="{{state.selectedImage.descr}}" />
   </section>
 
   <section class="width-20p">
@@ -52,7 +54,8 @@
       ng-repeat="image in state.images track by $index"
       ng-click="handleImageClick(image)"
       src="{{image.content}}"
-    />
+      data-toggle="popover"
+      title="{{image.title}}: {{image.descr}}" />
   </section>
 </main>
 
