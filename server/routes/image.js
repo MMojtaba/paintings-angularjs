@@ -7,6 +7,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const ImageModel = require("../models/Image.js");
 
 const dbPath = process.env.DB_PATH || "mongodb://127.0.0.1/pjs-db";
+const enableCache = process.env.ENABLE_CACHE;
 
 // For caching images
 const imageCache = {};
@@ -65,7 +66,7 @@ async function getImages(imageInfos) {
         const parsed = parseImageBeforeSend(info, buffer);
 
         // Cache image
-        imageCache[info.fileId] = parsed.content;
+        if (enableCache === "true") imageCache[info.fileId] = parsed.content;
         return parsed;
       }
     })

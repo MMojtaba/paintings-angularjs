@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
-require("dotenv").config(); //TODO: add .env to gitignore and add a sample .env file
+require("dotenv").config();
 
 // Routes
 const authRoutes = require("./routes/auth.js");
@@ -40,7 +40,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 AuthService.initPassport(passport);
