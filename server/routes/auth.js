@@ -25,7 +25,6 @@ router.post(
   AuthService.ensureAuthenticated,
   async function (req, res) {
     const { username, password } = req.body;
-    console.log("in post register", username, password);
     if (!username || !password)
       return res.status(400).send("Username or password not provided.");
 

@@ -127,10 +127,7 @@ router.get("/images/:id", async function (req, res) {
     const imageInfo = await ImageModel.findOne({ fileId: fileId });
 
     if (!imageInfo) return res.status(404).send("Image not found.");
-    console.log("image info is", imageInfo);
     const images = await getImages([imageInfo]);
-
-    console.log("about to return", images[0]?.descr);
 
     return res.status(200).send(images?.at(0));
   } catch (err) {
@@ -146,7 +143,6 @@ router.put(
     const { fileId, title, descr, category, isFeatured } = req.body;
     if (!fileId)
       return res.status(400).send({ message: "fileId field is required." });
-    console.log("body is", req.body);
     try {
       await ImageModel.updateOne(
         { fileId },
@@ -159,7 +155,6 @@ router.put(
           },
         }
       );
-      console.log("updated image");
 
       return res.status(200).send({ message: "Image updated!" });
     } catch (err) {
@@ -222,7 +217,6 @@ router.post(
         const newImage = new ImageModel(imageObjData);
 
         await newImage.save();
-        console.log("Saved image.");
 
         res.status(200).send({ imageFileId: imageObjData.fileId });
       } catch (err) {

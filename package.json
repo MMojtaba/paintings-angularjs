@@ -1,6 +1,6 @@
 {
   "name": "paintings-angularjs",
-  "version": "1.0.0",
+  "version": "1.1",
   "description": "Using - AngularJS - Express - MongoDB - Bootstrap - Docker - PassportJS - Node Restful",
   "scripts": {
     "dev": "nodemon server/server.js"

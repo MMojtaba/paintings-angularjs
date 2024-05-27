@@ -54,6 +54,7 @@ angular.module("PaintingsApp").controller("ImagePreviewCtrl", [
         await ImageService.update($scope.state.image);
         alert("Successfully saved image!");
         $scope.state.editMode = false;
+        $scope.$apply();
       } catch (err) {
         console.error("Error saving changes.", err);
         alert("Error saving changes.");

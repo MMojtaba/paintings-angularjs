@@ -27,7 +27,7 @@ mongoose
     console.log("Connection to database successful");
   })
   .catch(function (err) {
-    console.log("Error connecting to the database", err);
+    console.error("Error connecting to the database", err);
   });
 
 // Host client
@@ -57,6 +57,6 @@ app.get("*", function (req, res) {
 
 // Start server
 app.listen(PORT, function (err) {
-  if (err) console.log("Error starting Server", err);
+  if (err) console.error("Error starting Server", err);
   else console.log("Started server at http://localhost:" + PORT);
 });
