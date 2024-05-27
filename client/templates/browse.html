@@ -93,7 +93,7 @@
     <span>No images found!</span>
   </section>
 
-  <section class="text-center">
+  <section class="text-center" ng-if="!state.notFound">
     <button
       class="btn btn-primary m-10 main-font text-medium width-90p"
       ng-click="handleLoadMore()"
