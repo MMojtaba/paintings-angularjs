@@ -1,6 +1,6 @@
 # Paintings App
 
-A web app that allows the user to showcase their paintings.
+A website that allows the user to showcase their paintings. Designed for MacOS.
 
 Made using
 
