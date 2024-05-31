@@ -1,11 +1,12 @@
 # Paintings App
 
-A website that allows the user to showcase their paintings. Designed for MacOS.
+A website that allows the user to showcase their paintings.  
+Designed for desktop web browsers.
 
 Made using
 
 - AngularJS
-- Express
+- ExpressJS
 - MongoDB
 - PassportJS
 
